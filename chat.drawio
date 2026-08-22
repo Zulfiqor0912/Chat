@@ -1,25 +1,25 @@
 <mxfile host="embed.diagrams.net">
   <diagram id="4yml3-HyFpJPKzYemVi-" name="Page-1">
-    <mxGraphModel dx="2172" dy="564" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1978" dy="837" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="light-dark(#ffffff, #121212)" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="3FkyQirlo6ZMuz0Ig308-1" parent="1" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=50;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;arcSize=4;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#d5e8d4;strokeColor=#82b366;" value="user" vertex="1">
           <mxGeometry height="220" width="170" x="-80" y="40" as="geometry" />
         </mxCell>
-        <mxCell id="3FkyQirlo6ZMuz0Ig308-2" parent="3FkyQirlo6ZMuz0Ig308-1" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;html=1;whiteSpace=wrap;labelBackgroundColor=none;" value="Guid Id&lt;br&gt;string FirstName&lt;div&gt;string? LastName&lt;/div&gt;&lt;div&gt;string Username&lt;/div&gt;&lt;div&gt;string PasswordHash&lt;/div&gt;&lt;div&gt;byte Age&lt;/div&gt;&lt;div&gt;string Gender&lt;/div&gt;&lt;div&gt;string ProfilePhoto&lt;/div&gt;&lt;div&gt;string Bio&lt;/div&gt;&lt;div&gt;List&amp;lt;User_Chat&amp;gt; UserChats&lt;/div&gt;" vertex="1">
+        <mxCell id="3FkyQirlo6ZMuz0Ig308-2" parent="3FkyQirlo6ZMuz0Ig308-1" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;html=1;whiteSpace=wrap;labelBackgroundColor=none;rounded=1;" value="Guid Id&lt;br&gt;string FirstName&lt;div&gt;string? LastName&lt;/div&gt;&lt;div&gt;string Username&lt;/div&gt;&lt;div&gt;string PasswordHash&lt;/div&gt;&lt;div&gt;byte Age&lt;/div&gt;&lt;div&gt;string Gender&lt;/div&gt;&lt;div&gt;string ProfilePhoto&lt;/div&gt;&lt;div&gt;string Bio&lt;/div&gt;&lt;div&gt;List&amp;lt;User_Chat&amp;gt; UserChats&lt;/div&gt;" vertex="1">
           <mxGeometry height="170" width="170" y="50" as="geometry" />
         </mxCell>
         <mxCell id="3FkyQirlo6ZMuz0Ig308-15" parent="1" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=50;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;arcSize=4;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#d5e8d4;strokeColor=#82b366;" value="chat" vertex="1">
           <mxGeometry height="220" width="170" x="390" y="40" as="geometry" />
         </mxCell>
-        <mxCell id="3FkyQirlo6ZMuz0Ig308-16" parent="3FkyQirlo6ZMuz0Ig308-15" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;html=1;whiteSpace=wrap;labelBackgroundColor=none;" value="Guid Id&lt;div&gt;List&amp;lt;User_Chat&amp;gt; UserChats&lt;/div&gt;&lt;div&gt;List&amp;lt;Message&amp;gt; Messages&lt;/div&gt;" vertex="1">
+        <mxCell id="3FkyQirlo6ZMuz0Ig308-16" parent="3FkyQirlo6ZMuz0Ig308-15" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;html=1;whiteSpace=wrap;labelBackgroundColor=none;rounded=1;" value="Guid Id&lt;div&gt;List&amp;lt;User_Chat&amp;gt; UserChats&lt;/div&gt;&lt;div&gt;List&amp;lt;Message&amp;gt; Messages&lt;/div&gt;" vertex="1">
           <mxGeometry height="170" width="170" y="50" as="geometry" />
         </mxCell>
         <mxCell id="3FkyQirlo6ZMuz0Ig308-17" parent="1" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=50;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;arcSize=4;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#d5e8d4;strokeColor=#82b366;" value="user_chat" vertex="1">
           <mxGeometry height="140" width="120" x="180" y="320" as="geometry" />
         </mxCell>
-        <mxCell id="3FkyQirlo6ZMuz0Ig308-18" parent="3FkyQirlo6ZMuz0Ig308-17" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;html=1;whiteSpace=wrap;labelBackgroundColor=none;" value="Guid Id&lt;div&gt;Guid UserId&lt;/div&gt;&lt;div&gt;User User&lt;/div&gt;&lt;div&gt;Guid ChatId&lt;/div&gt;&lt;div&gt;Chat Chat&lt;/div&gt;" vertex="1">
+        <mxCell id="3FkyQirlo6ZMuz0Ig308-18" parent="3FkyQirlo6ZMuz0Ig308-17" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;html=1;whiteSpace=wrap;labelBackgroundColor=none;rounded=1;" value="Guid Id&lt;div&gt;Guid UserId&lt;/div&gt;&lt;div&gt;User User&lt;/div&gt;&lt;div&gt;Guid ChatId&lt;/div&gt;&lt;div&gt;Chat Chat&lt;/div&gt;" vertex="1">
           <mxGeometry height="90" width="120" y="50" as="geometry" />
         </mxCell>
         <mxCell id="3FkyQirlo6ZMuz0Ig308-22" edge="1" parent="1" source="3FkyQirlo6ZMuz0Ig308-18" style="edgeStyle=entityRelationEdgeStyle;fontSize=12;html=1;endArrow=ERmandOne;rounded=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;curved=0;startArrow=ERzeroToMany;startFill=0;endFill=0;" target="3FkyQirlo6ZMuz0Ig308-15" value="">
@@ -37,22 +37,22 @@
         <mxCell id="3FkyQirlo6ZMuz0Ig308-24" parent="1" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=50;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;arcSize=4;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#d5e8d4;strokeColor=#82b366;" value="message" vertex="1">
           <mxGeometry height="220" width="170" x="640" y="40" as="geometry" />
         </mxCell>
-        <mxCell id="3FkyQirlo6ZMuz0Ig308-25" parent="3FkyQirlo6ZMuz0Ig308-24" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;html=1;whiteSpace=wrap;labelBackgroundColor=none;" value="int Id&lt;div&gt;string Text&lt;/div&gt;&lt;div&gt;Guid FromUserId&lt;/div&gt;&lt;div&gt;Content Content&lt;/div&gt;&lt;div&gt;Guid ChatId&lt;/div&gt;&lt;div&gt;Chat Chat&lt;/div&gt;" vertex="1">
+        <mxCell id="3FkyQirlo6ZMuz0Ig308-25" parent="3FkyQirlo6ZMuz0Ig308-24" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;html=1;whiteSpace=wrap;labelBackgroundColor=none;rounded=1;" value="int Id&lt;div&gt;string Text&lt;/div&gt;&lt;div&gt;Guid FromUserId&lt;/div&gt;&lt;div&gt;Content Content&lt;/div&gt;&lt;div&gt;Guid ChatId&lt;/div&gt;&lt;div&gt;Chat Chat&lt;/div&gt;" vertex="1">
           <mxGeometry height="170" width="170" y="50" as="geometry" />
         </mxCell>
         <mxCell id="3FkyQirlo6ZMuz0Ig308-27" parent="1" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=50;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;arcSize=4;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#d5e8d4;strokeColor=#82b366;" value="content" vertex="1">
           <mxGeometry height="220" width="170" x="940" y="40" as="geometry" />
         </mxCell>
-        <mxCell id="3FkyQirlo6ZMuz0Ig308-28" parent="3FkyQirlo6ZMuz0Ig308-27" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;html=1;whiteSpace=wrap;labelBackgroundColor=none;" value="int Id&lt;div&gt;string Url&lt;/div&gt;&lt;div&gt;string Type&lt;/div&gt;&lt;div&gt;int MessageId&lt;/div&gt;" vertex="1">
+        <mxCell id="3FkyQirlo6ZMuz0Ig308-28" parent="3FkyQirlo6ZMuz0Ig308-27" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;html=1;whiteSpace=wrap;labelBackgroundColor=none;rounded=1;" value="int Id&lt;div&gt;string Url&lt;/div&gt;&lt;div&gt;string Type&lt;/div&gt;&lt;div&gt;int MessageId&lt;/div&gt;" vertex="1">
           <mxGeometry height="170" width="170" y="50" as="geometry" />
         </mxCell>
-        <mxCell id="3FkyQirlo6ZMuz0Ig308-29" edge="1" parent="1" source="3FkyQirlo6ZMuz0Ig308-16" style="edgeStyle=entityRelationEdgeStyle;fontSize=12;html=1;endArrow=ERzeroToMany;startArrow=ERmandOne;rounded=0;endFill=0;exitX=1.012;exitY=0.404;exitDx=0;exitDy=0;exitPerimeter=0;" value="">
+        <mxCell id="3FkyQirlo6ZMuz0Ig308-29" edge="1" parent="1" source="3FkyQirlo6ZMuz0Ig308-16" style="edgeStyle=entityRelationEdgeStyle;fontSize=12;html=1;endArrow=ERzeroToMany;startArrow=ERmandOne;rounded=1;endFill=0;exitX=1.012;exitY=0.404;exitDx=0;exitDy=0;exitPerimeter=0;" value="">
           <mxGeometry height="100" relative="1" width="100" as="geometry">
             <mxPoint x="590" y="410" as="sourcePoint" />
             <mxPoint x="630" y="160" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="3FkyQirlo6ZMuz0Ig308-30" edge="1" parent="1" source="3FkyQirlo6ZMuz0Ig308-25" style="edgeStyle=entityRelationEdgeStyle;fontSize=12;html=1;endArrow=ERzeroToOne;startArrow=ERmandOne;rounded=0;endFill=0;entryX=0.013;entryY=0.409;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1.014;exitY=0.409;exitDx=0;exitDy=0;exitPerimeter=0;" target="3FkyQirlo6ZMuz0Ig308-28" value="">
+        <mxCell id="3FkyQirlo6ZMuz0Ig308-30" edge="1" parent="1" source="3FkyQirlo6ZMuz0Ig308-25" style="edgeStyle=entityRelationEdgeStyle;fontSize=12;html=1;endArrow=ERzeroToOne;startArrow=ERmandOne;rounded=1;endFill=0;entryX=0.013;entryY=0.409;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1.014;exitY=0.409;exitDx=0;exitDy=0;exitPerimeter=0;" target="3FkyQirlo6ZMuz0Ig308-28" value="">
           <mxGeometry height="100" relative="1" width="100" as="geometry">
             <mxPoint x="700" y="450" as="sourcePoint" />
             <mxPoint x="800" y="350" as="targetPoint" />

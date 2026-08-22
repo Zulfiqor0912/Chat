@@ -1,0 +1,62 @@
+
+User
+{
+
+[GET]
+/api/users => get all users
+
+[POST]
+/api/users => add new user
+
+[GET]
+/api/users/user_id => get user by id
+
+[PUT]
+/api/users/user_id => update user
+
+[POST]
+/api/users/register
+
+[POST]
+/api/users/login
+
+}
+
+Chat
+{
+	
+	[GET]
+	/api/chats => get all chats (admin action)
+
+	[GET]
+	/api/users/useer_id/chats => get all chat which related to user
+
+	[POST]
+	/api/users/user_id/chats => add or enter chat
+
+	[PUT]
+	/api/users/user_id/chats/chat_id => update chat
+
+	[DELETE]
+	/api/users/user_id/chats/chat_id => delete chat
+
+}
+
+Message
+{
+	[GET]
+	/api/users/user_id/chats/chat_id/messages => get all messages which releted to the chat
+
+	[POST]
+	/api/users/user_id/chats/chat_id/messages/sen-messages => send message to the chat
+
+	[PUT]
+	/api/users/user_id/chats/chat_id/messages/message_id => edit message in chat
+
+	[DELETE]
+	/api/users/user_id/chats/chat_id/messages/message_id => delete message in chat
+
+	[DELETE]
+	/api/users/user_id/chats/chat_id/messages => delete all messages which related chat
+}
+

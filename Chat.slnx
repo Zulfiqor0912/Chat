@@ -1,5 +1,7 @@
 <Solution>
   <Folder Name="/Solution Items/">
     <File Path="chat.drawio" />
+    <File Path="Learn.txt" />
   </Folder>
+  <Project Path="Chat.Api/Chat.Api.csproj" Id="900d5278-39f8-415c-a804-da14c5aa704e" />
 </Solution>
