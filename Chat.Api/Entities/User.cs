@@ -1,17 +1,24 @@
-﻿namespace Chat.Api.Entities;
+﻿using Chat.Api.Utility.Enums;
+using System.ComponentModel.DataAnnotations;
+
+namespace Chat.Api.Entities;
 
 public class User
 {
     public Guid Id { get; set; }
-    public string FirsName { get; set; }
+    [Required]
+    public string FirsName { get; set; } = null!;
     public string? LastName { get; set; }
-    public string Username { get; set; }
-    public string PasswrodHash { get; set; }
+    [Required]
+    public string Username { get; set; } = null!;
+    [Required]
+    public string PasswrodHash { get; set; } = null!;
     public byte Age { get; set; }
-    public string Gender { get; set; }
-    public string ProfilePhoto { get; set; }
-    public string Bio { get; set; }
-    public DateTime DateTime { get; set; } = DateTime.Now;
-    public Enum Status { get; set; }
-    public List<UserChat> UserChats { get; set; }
+    [Required]
+    public string Gender { get; set; } = null!;
+    public string ProfilePhoto { get; set; } = string.Empty;
+    public string Bio { get; set; } = string.Empty;
+    public DateTime CreatedDateTime { get; set; } = DateTime.Now;
+    public UserStatus Status { get; set; } = UserStatus.Active;
+    public List<UserChat>? UserChats { get; set; }
 }
