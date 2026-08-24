@@ -20,7 +20,7 @@ public class UserRepository(ChatDbContext dbContext) : IUserRepository
         await dbContext.SaveChangesAsync();
     }
 
-    public async Task<List<User>> GetAllUserAsync()
+    public async Task<List<User>> GetAllUsers()
     {
         var users = await dbContext.Users.AsNoTracking().ToListAsync();
         return users is null ? throw new UserNotFoundException() : users;

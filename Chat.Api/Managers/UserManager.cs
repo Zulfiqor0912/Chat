@@ -1,4 +1,5 @@
-﻿using Chat.Api.Models;
+﻿using Chat.Api.Extentions;
+using Chat.Api.Models;
 using Chat.Api.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore.Internal;
 
@@ -8,6 +9,7 @@ public class UserManager(IUserRepository userRepository)
 {
     public async Task GetAllUsers(CreateUserModel model)
     {
-        //create user
+        var users = await userRepository.GetAllUsers();
+        return users.ParseUserDtos(users);
     }
 }
