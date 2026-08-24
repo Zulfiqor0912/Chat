@@ -7,7 +7,7 @@ namespace Chat.Api.Extentions;
 
 public static class ParseToDtoExtention
 {
-    public static UserDto ParseToDto(this User user)
+    public static UserDto ParseUserToDto(this User user)
     {
         UserDto dto = user.Adapt<UserDto>();
         return dto;
@@ -18,7 +18,7 @@ public static class ParseToDtoExtention
         var dtos = new List<UserDto>();
         if (users is null || users.Count == 0) 
             return dtos;
-        dtos.AddRange(users.Select(user => user.ParseToDto()));
+        dtos.AddRange(users.Select(user => user.ParseUserToDto()));
         return dtos;
     }
 }
