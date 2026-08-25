@@ -18,7 +18,7 @@ public class User
     public string Gender { get; set; } = null!;
     public string ProfilePhoto { get; set; } = string.Empty;
     public string Bio { get; set; } = string.Empty;
-    public DateTime CreatedDateTime { get; set; } = DateTime.Now;
+    public DateTime CreatedDateTime { get; set; } = DateTime.UtcNow;
     public UserStatus Status { get; set; } = UserStatus.Active;
     public List<UserChat>? UserChats { get; set; }
 }

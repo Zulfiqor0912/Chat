@@ -3,4 +3,5 @@
 public interface IUnitOfWork
 {
     IUserRepository UserRepository { get; }
+    IChatRepository ChatRepository { get; }
 }

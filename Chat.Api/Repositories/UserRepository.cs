@@ -35,7 +35,7 @@ public class UserRepository(ChatDbContext dbContext) : IUserRepository
     public async Task<User>? GetUserByUsername(string username)
     {
         var user = await dbContext.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Username == username);
-        return user is null ? throw new UserNotFoundException() : user;
+        return user!;
     }
 
     public async Task UpdateUserById(User user)

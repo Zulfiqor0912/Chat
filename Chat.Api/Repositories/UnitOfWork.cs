@@ -6,8 +6,11 @@ namespace Chat.Api.Repositories;
 public class UnitOfWork(ChatDbContext dbContext) : IUnitOfWork
 {
     public IUserRepository userRepository { get; }
+    public IChatRepository chatRepository { get; }
 
     public IUserRepository UserRepository => userRepository ?? new UserRepository(dbContext);
+
+    public IChatRepository ChatRepository => chatRepository ?? new ChatRepository(dbContext);
     //{
     //    get
     //    {
@@ -16,5 +19,7 @@ public class UnitOfWork(ChatDbContext dbContext) : IUnitOfWork
     //        return userRepository;
     //    }
     //}
+
+
 
 }
