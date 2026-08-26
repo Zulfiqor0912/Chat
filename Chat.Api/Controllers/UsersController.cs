@@ -45,7 +45,14 @@ public class UsersController(UserManager userManager) : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginModel model)
     {
-        var result = await userManager.Login(model);
-        return Ok();
+        try
+        {
+            var result = await userManager.Login(model);
+            return Ok(result);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
     }
 }
