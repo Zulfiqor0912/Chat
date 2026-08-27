@@ -16,6 +16,7 @@ builder.Services.AddScoped<UserManager>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IChatRepository, ChatRepository>();
+builder.Services.AddScoped<IUserChatRepository, UserChatRepository>();
 
 builder.Services.AddDbContext<ChatDbContext>(options =>
 {
