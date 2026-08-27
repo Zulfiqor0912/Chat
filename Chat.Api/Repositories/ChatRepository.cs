@@ -32,7 +32,7 @@ public class ChatRepository(ChatDbContext dbContext) : IChatRepository
         return chats is null ? throw new ChatNotFoundException() : chats;
     }
 
-    public async Task<List<Entities.Chat>> GetAllUserChats(Guid userId)
+    public async Task<List<Entities.Chat>> GetAllChatsOfUser(Guid userId)
     {
         var userChats = await dbContext.UserChats
             .Where(uc => uc.UserId == userId)
@@ -46,8 +46,10 @@ public class ChatRepository(ChatDbContext dbContext) : IChatRepository
     public async Task<Entities.Chat> GetUserChatById(Guid userId, Guid chatId)
     {
         var userChat = await dbContext.UserChats
+            .Include(uc => uc.Chat)
             .FirstOrDefaultAsync(uc => uc.UserId == userId && uc.ChatId == chatId);
-
+        var chat = userChat?.Chat;
+        return chat!;
     }
 
     public async Task UpdateChat(Entities.Chat chat)
