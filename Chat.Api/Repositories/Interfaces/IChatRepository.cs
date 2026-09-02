@@ -10,6 +10,6 @@ public interface IChatRepository
     public Task UpdateChat(Entities.Chat chat);
     public Task DeleteChatById(Entities.Chat chat);
     public Task ArchiveChatById(Entities.Chat chat);
-    public Task AddUserChat(Entities.Chat chat);
-    public Task<Tuple<bool, Entities.Chat>> CheckChatExist(Guid fromUserId, Guid toUserId);
+    public Task AddChat(Entities.Chat chat);
+    public Task<Tuple<bool, Entities.Chat?>> CheckChatExist(Guid fromUserId, Guid toUserId);
 }

@@ -1,5 +1,7 @@
 ﻿using Chat.Api.DTOs;
+using Chat.Api.Entities;
 using Chat.Api.Extentions;
+using Chat.Api.Helpers;
 using Chat.Api.Repositories.Interfaces;
 
 namespace Chat.Api.Managers;
@@ -24,8 +26,44 @@ public class ChatManager(IUnitOfWork unitOfWork)
         return chat.ParseChatToDto();
     }
 
-    public async Task AddOrEnterChat(Guid fromUserId, Guid toUserId)
+    public async Task<ChatDto> AddOrEnterChat(Guid fromUserId, Guid toUserId)
     {
-        var check = await unitOfWork.ChatRepository.CheckChatExist(fromUserId, toUserId);
+        var (check, chat) = await unitOfWork.ChatRepository.CheckChatExist(fromUserId, toUserId);
+
+        if (check)
+            return chat?.ParseChatToDto()!;
+
+        var fromUser = await unitOfWork.UserRepository.GetUserByid(fromUserId);
+        var toUser = await unitOfWork.UserRepository.GetUserByid(toUserId);
+
+        List<string> chatNames = new()
+        {
+            StaticHelper.GetFullName(fromUser.FirsName, fromUser.LastName),
+            StaticHelper.GetFullName(toUser.FirsName, toUser.LastName)
+        };
+
+        chat = new Entities.Chat
+        {
+            ChatNames = chatNames
+        };
+
+        await unitOfWork.ChatRepository.AddChat(chat);
+
+        var fromUserChat = new UserChat()
+        {
+            UserId = fromUserId,
+            ChatId = chat.Id
+        };
+
+        await unitOfWork.UserChatRepository.AddUserChat(fromUserChat);
+
+        var toUserChat = new UserChat()
+        {
+            UserId = toUserId,
+            ChatId = chat.Id
+        };
+
+        await unitOfWork.UserChatRepository.AddUserChat(toUserChat);
+        return chat.ParseChatToDto();
     }
 }

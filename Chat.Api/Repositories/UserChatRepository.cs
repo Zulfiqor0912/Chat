@@ -14,7 +14,7 @@ public class UserChatRepository(ChatDbContext dbContext) : IUserChatRepository
 
     public async Task DeleteUserChat(UserChat userChat)
     {
-        dbContext.UserChats.Remove(userChat);
+        dbContext.UserChats.Remove(userChat);   
         await dbContext.SaveChangesAsync();
     }
 }

@@ -8,7 +8,7 @@ namespace Chat.Api.Repositories;
 
 public class ChatRepository(ChatDbContext dbContext) : IChatRepository
 {
-    public async Task AddUserChat(Entities.Chat chat)
+    public async Task AddChat(Entities.Chat chat)
     {
         await dbContext.Chats.AddAsync(chat);
         await dbContext.SaveChangesAsync();
@@ -40,7 +40,7 @@ public class ChatRepository(ChatDbContext dbContext) : IChatRepository
             .ToListAsync();
 
         var chats = userChats.Select(uc => uc.Chat).ToList();
-        return chats!;
+        return chats is null ? new List<Entities.Chat>() : chats!;
     }
 
     public async Task<Entities.Chat> GetUserChatById(Guid userId, Guid chatId)
@@ -58,9 +58,14 @@ public class ChatRepository(ChatDbContext dbContext) : IChatRepository
         await dbContext.SaveChangesAsync();
     }
 
-    public async Task<Tuple<bool, Entities.Chat>> CheckChatExist(Guid fromUserId, Guid toUserId)
+    public async Task<Tuple<bool, Entities.Chat?>> CheckChatExist(Guid fromUserId, Guid toUserId)
     {
         var userChat = await dbContext.UserChats.FirstOrDefaultAsync(uc => uc.UserId == fromUserId || uc.UserId == toUserId);
-        return userChat != null;
+        if (userChat != null)
+        {
+            var chat = await GetUserChatById(userChat.UserId, userChat.ChatId);
+            return new(true, chat);
+        }
+        return new(false, null);
     }
 }

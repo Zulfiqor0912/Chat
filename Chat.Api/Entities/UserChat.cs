@@ -1,8 +1,11 @@
-﻿namespace Chat.Api.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Chat.Api.Entities;
 
 public class UserChat
 {
-    public Guid Id { get; set; }
+    [Key]
+    public Guid Id { get; set; } = Guid.NewGuid();
     public Guid UserId { get; set; }
     public User? User { get; set; }
     public Guid ChatId { get; set; }
