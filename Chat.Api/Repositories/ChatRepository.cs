@@ -57,4 +57,10 @@ public class ChatRepository(ChatDbContext dbContext) : IChatRepository
        dbContext.Chats.Update(chat);
         await dbContext.SaveChangesAsync();
     }
+
+    public async Task<Tuple<bool, Entities.Chat>> CheckChatExist(Guid fromUserId, Guid toUserId)
+    {
+        var userChat = await dbContext.UserChats.FirstOrDefaultAsync(uc => uc.UserId == fromUserId || uc.UserId == toUserId);
+        return userChat != null;
+    }
 }

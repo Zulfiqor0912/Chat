@@ -22,18 +22,19 @@ public static class ParseToDtoExtention
         return dtos;
     }
 
-    public static async Task<List<ChatDto>> ParseChatDtos(this List<Entities.Chat>? chats)
+    public static List<ChatDto> ParseChatDtos(this List<Entities.Chat>? chats)
     {
         var dtos = new List<ChatDto>();
         if (chats is null || chats.Count == 0)
             return dtos;
-        await dtos.AddRange(chats.Select(ch => ch.ParseToChatDto()));
+        dtos.AddRange(chats.Select(ch => ch.ParseChatToDto()));
         return dtos;
     }
 
-    public static async Task<ChatDto> ParseChatToDto(this Chat chat)
+    public static ChatDto ParseChatToDto(this Entities.Chat chat)
     {
-        var dto = UseDestinationValue.
+        ChatDto dto = chat.Adapt<ChatDto>();
+        return dto;
     }
 }
 
