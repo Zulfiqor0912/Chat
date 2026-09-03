@@ -47,6 +47,9 @@ public class ChatRepository(ChatDbContext dbContext) : IChatRepository
     {
         var userChat = await dbContext.UserChats
             .Include(uc => uc.Chat)
+                .ThenInclude(c => c!.UserChats)
+            .Include(uc => uc.Chat)
+                .ThenInclude(c => c!.Messages)
             .FirstOrDefaultAsync(uc => uc.UserId == userId && uc.ChatId == chatId);
         var chat = userChat?.Chat;
         return chat!;
