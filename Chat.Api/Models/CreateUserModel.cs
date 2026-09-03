@@ -9,7 +9,7 @@ public class CreateUserModel
     public string? LastName { get; set; }
     [Required]
     public string Username { get; set; } = null!;
-    public byte Age { get; set; }
+    public byte Age { get; set; }   
     [Required]
     public string Gender { get; set; } = null!;
     [Required]

@@ -57,7 +57,7 @@ public class ChatRepository(ChatDbContext dbContext) : IChatRepository
 
     public async Task UpdateChat(Entities.Chat chat)
     {
-       dbContext.Chats.Update(chat);
+        dbContext.Chats.Update(chat);
         await dbContext.SaveChangesAsync();
     }
 

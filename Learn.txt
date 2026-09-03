@@ -26,19 +26,19 @@ Chat
 {
 	
 	[GET]
-	/api/chats => get all chats (admin action)
+	/api/chats => get all chats (admin action)                         | success
 
 	[GET]
-	/api/users/useer_id/chats => get all chat which related to user
+	/api/users/useer_id/chats => get all chat which related to user    | success
 
 	[POST]
-	/api/users/user_id/chats => add or enter chat
+	/api/users/user_id/chats => add or enter chat                      | success
 
-	[PUT]
-	/api/users/user_id/chats/chat_id => update chat
+	[PUT] 
+	/api/users/user_id/chats/chat_id => update chat                    | unsucces
 
 	[DELETE]
-	/api/users/user_id/chats/chat_id => delete chat
+	/api/users/user_id/chats/chat_id => delete chat                    
 
 }
 

@@ -2,6 +2,7 @@
 using Chat.Api.Entities;
 using Chat.Api.Extentions;
 using Chat.Api.Helpers;
+using Chat.Api.Models;
 using Chat.Api.Repositories.Interfaces;
 
 namespace Chat.Api.Managers;
@@ -66,4 +67,11 @@ public class ChatManager(IUnitOfWork unitOfWork)
         await unitOfWork.UserChatRepository.AddUserChat(toUserChat);
         return chat.ParseChatToDto();
     }
+    //public Task UpdateChat(UpdateChatModel model)
+    //{
+    //    var chat = new Entities.Chat()
+    //    {
+            
+    //    }
+    //}
 }
