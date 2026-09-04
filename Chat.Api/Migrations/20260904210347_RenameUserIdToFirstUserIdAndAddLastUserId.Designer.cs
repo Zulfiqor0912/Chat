@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Chat.Api.Migrations
 {
     [DbContext(typeof(ChatDbContext))]
-    [Migration("20260823174102_init")]
-    partial class init
+    [Migration("20260904210347_RenameUserIdToFirstUserIdAndAddLastUserId")]
+    partial class RenameUserIdToFirstUserIdAndAddLastUserId
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,22 +26,7 @@ namespace Chat.Api.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Chat.Api.Entities.Chat", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.PrimitiveCollection<List<string>>("ChatNames")
-                        .IsRequired()
-                        .HasColumnType("text[]");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Chats");
-                });
-
-            modelBuilder.Entity("Chat.Api.Entities.Content", b =>
+            modelBuilder.Entity("Chat.Api.DTOs.ContentDto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -61,7 +46,25 @@ namespace Chat.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Content");
+                    b.HasIndex("MessageId")
+                        .IsUnique();
+
+                    b.ToTable("ContentDto");
+                });
+
+            modelBuilder.Entity("Chat.Api.Entities.Chat", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.PrimitiveCollection<List<string>>("ChatNames")
+                        .IsRequired()
+                        .HasColumnType("text[]");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Chats");
                 });
 
             modelBuilder.Entity("Chat.Api.Entities.Message", b =>
@@ -101,8 +104,6 @@ namespace Chat.Api.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ChatId");
-
-                    b.HasIndex("ContentId");
 
                     b.ToTable("Messages");
                 });
@@ -163,16 +164,30 @@ namespace Chat.Api.Migrations
                     b.Property<Guid>("ChatId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid>("FirstUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("LastUserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ChatId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("FirstUserId");
+
+                    b.HasIndex("LastUserId");
 
                     b.ToTable("UserChats");
+                });
+
+            modelBuilder.Entity("Chat.Api.DTOs.ContentDto", b =>
+                {
+                    b.HasOne("Chat.Api.Entities.Message", null)
+                        .WithOne("ContentDto")
+                        .HasForeignKey("Chat.Api.DTOs.ContentDto", "MessageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Chat.Api.Entities.Message", b =>
@@ -183,15 +198,7 @@ namespace Chat.Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Chat.Api.Entities.Content", "Content")
-                        .WithMany()
-                        .HasForeignKey("ContentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Chat");
-
-                    b.Navigation("Content");
                 });
 
             modelBuilder.Entity("Chat.Api.Entities.UserChat", b =>
@@ -202,15 +209,23 @@ namespace Chat.Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Chat.Api.Entities.User", "User")
+                    b.HasOne("Chat.Api.Entities.User", "FirstUser")
                         .WithMany("UserChats")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("FirstUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Chat.Api.Entities.User", "LastUser")
+                        .WithMany()
+                        .HasForeignKey("LastUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Chat");
 
-                    b.Navigation("User");
+                    b.Navigation("FirstUser");
+
+                    b.Navigation("LastUser");
                 });
 
             modelBuilder.Entity("Chat.Api.Entities.Chat", b =>
@@ -218,6 +233,11 @@ namespace Chat.Api.Migrations
                     b.Navigation("Messages");
 
                     b.Navigation("UserChats");
+                });
+
+            modelBuilder.Entity("Chat.Api.Entities.Message", b =>
+                {
+                    b.Navigation("ContentDto");
                 });
 
             modelBuilder.Entity("Chat.Api.Entities.User", b =>

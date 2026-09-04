@@ -9,15 +9,15 @@ namespace Chat.Api.Controllers;
 public class ChatsController(ChatManager chatManager) : ControllerBase
 {
 
-    //[HttpGet]//for only admin
-    //public async Task<IActionResult> GetAllChats()
-    //{
-    //    var chats = await chatManager.GetAllChats();
-    //    return Ok(chats);
-    //}
-        
+    [HttpGet("all")]//for only admin
+    public async Task<IActionResult> GetAllChats()
+    {
+        var chats = await chatManager.GetAllChats();
+        return Ok(chats);
+    }
+
     [HttpGet]
-    public async Task<IActionResult> GetUserChats(Guid userId)
+    public async Task<IActionResult> GetChatsOfUser(Guid userId)
     {
         var chats = await chatManager.GetAllChatsOfUser(userId);
         return Ok(chats);

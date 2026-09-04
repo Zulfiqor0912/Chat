@@ -23,23 +23,21 @@ public class ChatDbContext : DbContext
 
         modelBuilder.Entity<UserChat>(entity =>
         {
-            entity.HasOne(uc => uc.User)
-                .WithMany(u => u.UserChats)
-                .HasForeignKey(uc => uc.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
-        });
+            entity.HasKey(uc => uc.Id);
 
-        modelBuilder.Entity<UserChat>(entity =>
-        {
+            entity.Property(uc => uc.FirstUserId).IsRequired();
+            entity.Property(uc => uc.LastUserId).IsRequired();
+            entity.Property(uc => uc.ChatId).IsRequired();
+
+            entity.HasOne(uc => uc.FirstUser)
+                .WithMany(u => u.UserChats)
+                .HasForeignKey(uc => uc.FirstUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             entity.HasOne(uc => uc.Chat)
                 .WithMany(u => u.UserChats)
                 .HasForeignKey(uc => uc.ChatId)
                 .OnDelete(DeleteBehavior.Cascade);
-        });
-
-        modelBuilder.Entity<UserChat>(entity =>
-        {
-            entity.HasKey(uc => new { uc.UserId, uc.ChatId });
         });
 
         modelBuilder.Entity<Message>(entity =>

@@ -52,7 +52,8 @@ public class ChatManager(IUnitOfWork unitOfWork)
 
         var fromUserChat = new UserChat()
         {
-            UserId = fromUserId,
+            FirstUserId = fromUserId,
+            LastUserId = toUserId,
             ChatId = chat.Id
         };
 
@@ -60,8 +61,10 @@ public class ChatManager(IUnitOfWork unitOfWork)
 
         var toUserChat = new UserChat()
         {
-            UserId = toUserId,
-            ChatId = chat.Id
+            FirstUserId = toUserId,
+            ChatId = chat.Id,
+            LastUserId = fromUserId
+
         };
 
         await unitOfWork.UserChatRepository.AddUserChat(toUserChat);

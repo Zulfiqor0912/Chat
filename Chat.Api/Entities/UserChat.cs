@@ -6,8 +6,13 @@ public class UserChat
 {
     [Key]
     public Guid Id { get; set; } = Guid.NewGuid();
-    public Guid UserId { get; set; }
-    public User? User { get; set; }
+    [Required]
+    public Guid FirstUserId { get; set; }
+    [Required]
+    public Guid LastUserId { get; set; }
+
     public Guid ChatId { get; set; }
+    public User? FirstUser { get; set; }
+    public User? LastUser { get; set; }
     public Chat? Chat { get; set; }
 }

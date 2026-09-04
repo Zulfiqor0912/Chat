@@ -35,7 +35,7 @@ public class ChatRepository(ChatDbContext dbContext) : IChatRepository
     public async Task<List<Entities.Chat>> GetAllChatsOfUser(Guid userId)
     {
         var userChats = await dbContext.UserChats
-            .Where(uc => uc.UserId == userId)
+            .Where(uc => uc.FirstUserId == userId)
             .Include(uc => uc.Chat)
             .ToListAsync();
 
@@ -50,7 +50,7 @@ public class ChatRepository(ChatDbContext dbContext) : IChatRepository
                 .ThenInclude(c => c!.UserChats)
             .Include(uc => uc.Chat)
                 .ThenInclude(c => c!.Messages)
-            .FirstOrDefaultAsync(uc => uc.UserId == userId && uc.ChatId == chatId);
+            .FirstOrDefaultAsync(uc => uc.FirstUserId == userId && uc.ChatId == chatId);
         var chat = userChat?.Chat;
         return chat!;
     }
@@ -63,10 +63,11 @@ public class ChatRepository(ChatDbContext dbContext) : IChatRepository
 
     public async Task<Tuple<bool, Entities.Chat?>> CheckChatExist(Guid fromUserId, Guid toUserId)
     {
-        var userChat = await dbContext.UserChats.FirstOrDefaultAsync(uc => uc.UserId == fromUserId || uc.UserId == toUserId);
+        var userChat = await dbContext.UserChats.FirstOrDefaultAsync(uc => uc.FirstUserId == fromUserId && uc.LastUserId == toUserId);
+
         if (userChat != null)
         {
-            var chat = await GetUserChatById(userChat.UserId, userChat.ChatId);
+            var chat = await GetUserChatById(userChat.FirstUserId, userChat.ChatId);
             return new(true, chat);
         }
         return new(false, null);
