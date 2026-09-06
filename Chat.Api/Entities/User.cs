@@ -16,7 +16,7 @@ public class User
     public byte Age { get; set; }
     [Required]
     public string Gender { get; set; } = null!;
-    public string ProfilePhoto { get; set; } = string.Empty;
+    public byte[]? ProfilePhotoData { get; set; }
     public string Bio { get; set; } = string.Empty;
     public DateTime CreatedDateTime { get; set; } = DateTime.UtcNow;
     public UserStatus Status { get; set; } = UserStatus.Active;

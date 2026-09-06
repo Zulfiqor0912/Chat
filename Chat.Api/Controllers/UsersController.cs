@@ -16,7 +16,6 @@ public class UsersController(UserManager userManager) : ControllerBase
         var users = await userManager.GetAllUsers();
         return Ok(users);
     }
-
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetUserById(Guid id)
     {
@@ -34,14 +33,12 @@ public class UsersController(UserManager userManager) : ControllerBase
             return BadRequest(e.Message);
         }
     }
-
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] CreateUserModel model)
     {
         var result = await userManager.Register(model);
         return Ok();
     }
-
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginModel model)
     {
@@ -55,4 +52,15 @@ public class UsersController(UserManager userManager) : ControllerBase
             return BadRequest(e.Message);
         }
     }
+    [HttpPost("{userId:guid}/add-or-update-photo")]
+    public async Task<IActionResult> AddOrUpdateUserPhoto(Guid userId, [FromForm] FileClass fileClass)
+    {
+        var result = await userManager.AddOrUpdatePhoto(userId, fileClass.File!);
+        return Ok(result);
+    }
+}
+
+public class FileClass
+{
+    public IFormFile? File { get; set; }
 }

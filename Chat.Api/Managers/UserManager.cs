@@ -3,9 +3,11 @@ using Chat.Api.DTOs;
 using Chat.Api.Entities;
 using Chat.Api.Exceptions;
 using Chat.Api.Extentions;
+using Chat.Api.Helpers;
 using Chat.Api.Models;
 using Chat.Api.Repositories.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Chat.Api.Managers;
 
@@ -57,6 +59,17 @@ public class UserManager(IUnitOfWork unitOfWork)
         if (result == PasswordVerificationResult.Failed)
             throw new Exception("Invalid password");
         return "Login successfully";
+    }
+    public async Task<byte[]> AddOrUpdatePhoto(Guid userId, IFormFile file)
+    {
+        var user = await _unitOfWork.UserRepository.GetUserByid(userId);
+
+        StaticHelper.IsPhoto(file);
+        var data = StaticHelper.PhotoFileToArray(file);
+
+        user.ProfilePhotoData = data;
+        await _unitOfWork.UserRepository.UpdateUserById(user);
+        return data;
     }
     private async Task CheckForExist(string username)
     {

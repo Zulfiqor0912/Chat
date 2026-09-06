@@ -1,4 +1,5 @@
 ﻿using Chat.Api.Entities;
+using Chat.Api.Models;
 
 namespace Chat.Api.Repositories.Interfaces;
 

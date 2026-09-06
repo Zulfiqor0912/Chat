@@ -9,7 +9,7 @@ namespace Chat.Api.Controllers;
 public class ChatsController(ChatManager chatManager) : ControllerBase
 {
 
-    [HttpGet("all")]//for only admin
+    [HttpGet("/api/chats/all")]//for only admin
     public async Task<IActionResult> GetAllChats()
     {
         var chats = await chatManager.GetAllChats();
@@ -36,4 +36,6 @@ public class ChatsController(ChatManager chatManager) : ControllerBase
     //    var result = await chatManager.UpdateChat(model);
     //    return Ok(result);
     //}
+
+    
 }

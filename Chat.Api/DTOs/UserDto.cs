@@ -12,7 +12,7 @@ public class UserDto
     public string Username { get; set; }
     public byte Age { get; set; }
     public string Gender { get; set; }
-    public string ProfilePhoto { get; set; } = string.Empty;
+    public byte[]? ProfilePhotoData { get; set; }
     public string Bio { get; set; } = string.Empty;
     public DateTime CreatedDateTime { get; set; } 
     public UserStatus Status { get; set; } = UserStatus.Active;
