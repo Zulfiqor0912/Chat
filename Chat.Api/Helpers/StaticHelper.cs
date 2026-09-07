@@ -13,7 +13,7 @@ public static class StaticHelper
     public static void IsPhoto(IFormFile file) 
     {
         var check = file.ContentType == UserConstants.JpgType
-        || file.ContentType == UserConstants.PngType;
+        || file.ContentType == UserConstants.PngType || file.ContentType == UserConstants.JpgType2;
 
         if (!check)
             throw new NotFotoTypeException();

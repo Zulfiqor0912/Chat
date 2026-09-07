@@ -52,7 +52,7 @@ public class UsersController(UserManager userManager) : ControllerBase
             return BadRequest(e.Message);
         }
     }
-    [HttpPost("{userId:guid}/add-or-update-photo")]
+    [HttpPut("{userId:guid}/add-or-update-photo")]
     public async Task<IActionResult> AddOrUpdateUserPhoto(Guid userId, [FromForm] FileClass fileClass)
     {
         var result = await userManager.AddOrUpdatePhoto(userId, fileClass.File!);

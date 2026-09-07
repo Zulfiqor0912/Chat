@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Chat.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class RenameUserIdToFirstUserIdAndAddLastUserId : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -36,7 +36,7 @@ namespace Chat.Api.Migrations
                     PasswrodHash = table.Column<string>(type: "text", nullable: false),
                     Age = table.Column<byte>(type: "smallint", nullable: false),
                     Gender = table.Column<string>(type: "text", nullable: false),
-                    ProfilePhoto = table.Column<string>(type: "text", nullable: false),
+                    ProfilePhotoData = table.Column<byte[]>(type: "bytea", nullable: true),
                     Bio = table.Column<string>(type: "text", nullable: false),
                     CreatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false)

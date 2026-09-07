@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Chat.Api.Migrations
 {
     [DbContext(typeof(ChatDbContext))]
-    [Migration("20260904210347_RenameUserIdToFirstUserIdAndAddLastUserId")]
-    partial class RenameUserIdToFirstUserIdAndAddLastUserId
+    [Migration("20260907045030_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -139,9 +139,8 @@ namespace Chat.Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("ProfilePhoto")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<byte[]>("ProfilePhotoData")
+                        .HasColumnType("bytea");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
