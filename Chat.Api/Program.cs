@@ -6,6 +6,7 @@ using Chat.Api.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +15,24 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    {
+        Description = "JWT Bearer. : \"Authorization: Bearer { token } \"",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey
+    });
+
+    c.AddSecurityRequirement(document =>
+    new OpenApiSecurityRequirement
+    {
+        [new OpenApiSecuritySchemeReference("Bearer", document)] = []
+    });
+});
+
 
 var jwtParam = builder.Configuration.GetSection("JwtParameters").Get<JwtParameters>();
 var key = System.Text.Encoding.UTF32.GetBytes(jwtParam.Key);
@@ -27,17 +45,22 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidAudience = jwtParam.Audience,
         ValidateAudience = true,
         IssuerSigningKey = new SymmetricSecurityKey(key),
-        ValidateIssuerSigningKey = true
+        ValidateIssuerSigningKey = true,
+        ValidateLifetime = true,
+        LifetimeValidator = 
     };
 });
 
 builder.Services.AddScoped<UserManager>();
 builder.Services.AddScoped<ChatManager>();
+builder.Services.AddScoped<JwtManager>();
+builder.Services.AddScoped<UserHelper>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IChatRepository, ChatRepository>();
 builder.Services.AddScoped<IUserChatRepository, UserChatRepository>();
 
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddDbContext<ChatDbContext>(options =>
 {
     options.UseNpgsql(

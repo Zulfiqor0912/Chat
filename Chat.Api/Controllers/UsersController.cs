@@ -1,27 +1,36 @@
 ﻿using Chat.Api.Exceptions;
+using Chat.Api.Helpers;
 using Chat.Api.Managers;
 using Chat.Api.Models;
 using Chat.Api.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Chat.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class UsersController(UserManager userManager) : ControllerBase
+public class UsersController(UserManager userManager,
+    UserHelper userHelper) : ControllerBase
 {
+    private readonly UserManager _userManager = userManager;
+    private readonly UserHelper _userHelper = userHelper;
+
     [HttpGet]
     public async Task<IActionResult> GetAllUsers()
     {
-        var users = await userManager.GetAllUsers();
+        var users = await _userManager.GetAllUsers();
         return Ok(users);
     }
-    [HttpGet("{id:guid}")]
-    public async Task<IActionResult> GetUserById(Guid id)
+
+    [Authorize]
+    [HttpGet("profile")]
+    public async Task<IActionResult> GetUserById()
     {
         try
         {
-            var user = await userManager.GetUserById(id);
+            var id = _userHelper.GetUserId();
+            var user = await _userManager.GetUserById(id);
             return Ok(user);
         }
         catch (UserNotFoundException e)
@@ -36,7 +45,7 @@ public class UsersController(UserManager userManager) : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] CreateUserModel model)
     {
-        var result = await userManager.Register(model);
+        var result = await _userManager.Register(model);
         return Ok();
     }
     [HttpPost("login")]
@@ -44,7 +53,7 @@ public class UsersController(UserManager userManager) : ControllerBase
     {
         try
         {
-            var result = await userManager.Login(model);
+            var result = await _userManager.Login(model);
             return Ok(result);
         }
         catch (Exception e)
@@ -55,7 +64,7 @@ public class UsersController(UserManager userManager) : ControllerBase
     [HttpPut("{userId:guid}/add-or-update-photo")]
     public async Task<IActionResult> AddOrUpdateUserPhoto(Guid userId, [FromForm] FileClass fileClass)
     {
-        var result = await userManager.AddOrUpdatePhoto(userId, fileClass.File!);
+        var result = await _userManager.AddOrUpdatePhoto(userId, fileClass.File!);
         return Ok(result);
     }
 }

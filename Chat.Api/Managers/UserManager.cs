@@ -11,9 +11,10 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Chat.Api.Managers;
 
-public class UserManager(IUnitOfWork unitOfWork)
+public class UserManager(IUnitOfWork unitOfWork, JwtManager jwtManager)
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly JwtManager _jwtmanager = jwtManager;
     public async Task<List<UserDto>> GetAllUsers()
     {
         var users = await _unitOfWork.UserRepository.GetAllUsers();
@@ -33,7 +34,7 @@ public class UserManager(IUnitOfWork unitOfWork)
     {
         await CheckForExist(model.Username);
 
-        
+
         var user = new User()
         {
             FirsName = model.FirsName,
@@ -53,12 +54,14 @@ public class UserManager(IUnitOfWork unitOfWork)
     public async Task<string> Login(LoginModel model)
     {
         var user = await _unitOfWork.UserRepository.GetUserByUsername(model.Username)!;
-        if (user is null) 
+        if (user is null)
             throw new Exception("Username is invalid");
         var result = new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswrodHash, model.Passwor);
         if (result == PasswordVerificationResult.Failed)
             throw new Exception("Invalid password");
-        return "Login successfully";
+
+        var token = _jwtmanager.GenerateToken(user);
+        return token; 
     }
     public async Task<byte[]> AddOrUpdatePhoto(Guid userId, IFormFile file)
     {
