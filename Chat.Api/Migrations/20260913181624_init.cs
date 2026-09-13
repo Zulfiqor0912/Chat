@@ -57,7 +57,6 @@ namespace Chat.Api.Migrations
                     IsEdited = table.Column<bool>(type: "boolean", nullable: false),
                     FromUserName = table.Column<string>(type: "text", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false),
-                    ContentId = table.Column<int>(type: "integer", nullable: false),
                     ChatId = table.Column<Guid>(type: "uuid", nullable: false),
                     EditedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
@@ -105,7 +104,7 @@ namespace Chat.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ContentDto",
+                name: "Contents",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -116,9 +115,9 @@ namespace Chat.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ContentDto", x => x.Id);
+                    table.PrimaryKey("PK_Contents", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ContentDto_Messages_MessageId",
+                        name: "FK_Contents_Messages_MessageId",
                         column: x => x.MessageId,
                         principalTable: "Messages",
                         principalColumn: "Id",
@@ -126,10 +125,9 @@ namespace Chat.Api.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ContentDto_MessageId",
-                table: "ContentDto",
-                column: "MessageId",
-                unique: true);
+                name: "IX_Contents_MessageId",
+                table: "Contents",
+                column: "MessageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Messages_ChatId",
@@ -156,7 +154,7 @@ namespace Chat.Api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ContentDto");
+                name: "Contents");
 
             migrationBuilder.DropTable(
                 name: "UserChats");

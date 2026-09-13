@@ -13,8 +13,7 @@ public class Message
     [Required]
     public string FromUserName { get; set; } = null!;
     public MessageStatus Status { get; set; } = MessageStatus.Active;
-    public int ContentId { get; set; }
-    public ContentDto? ContentDto { get; set; }
+    public ICollection<Content> Contents { get; set; } = new List<Content>();
     public Guid ChatId { get; set; }
     public Chat Chat { get; set; } = null!;
     public DateTime SendAt => DateTime.UtcNow; 

@@ -2,7 +2,7 @@
 using Chat.Api.Utility.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace Chat.Api.Models;
+namespace Chat.Api.Models.UserModels;
 
 public class UpdateUserModel
 {

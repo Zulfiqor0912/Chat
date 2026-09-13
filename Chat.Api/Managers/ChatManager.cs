@@ -7,35 +7,40 @@ using Chat.Api.Repositories.Interfaces;
 
 namespace Chat.Api.Managers;
 
-public class ChatManager(IUnitOfWork unitOfWork)
+public class ChatManager(
+    IUnitOfWork unitOfWork,
+    UserHelper userHelper)
 {
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly UserHelper _userHelper = userHelper;
     public async Task<List<ChatDto>> GetAllChats() //for admin
     {
-        var chats = await unitOfWork.ChatRepository.GetAllChats();
-        return chats.ParseChatDtos();
+        var chats = await _unitOfWork.ChatRepository.GetAllChats();
+        var dtos = chats.ParseChatDtos();
+        return dtos;
     }
 
     public async Task<List<ChatDto>> GetAllChatsOfUser(Guid userId)
     {
-        var chatsOfUser = await unitOfWork.ChatRepository.GetAllChatsOfUser(userId);
+        var chatsOfUser = await _unitOfWork.ChatRepository.GetAllChatsOfUser(userId);
         return chatsOfUser.ParseChatDtos();
     }
 
     public async Task<ChatDto> GetUserChatById(Guid userId, Guid chatId)
     {
-        var chat = await unitOfWork.ChatRepository.GetUserChatById(userId, chatId);
+        var chat = await _unitOfWork.ChatRepository.GetChatById(userId, chatId);
         return chat.ParseChatToDto();
     }
 
     public async Task<ChatDto> AddOrEnterChat(Guid fromUserId, Guid toUserId)
     {
-        var (check, chat) = await unitOfWork.ChatRepository.CheckChatExist(fromUserId, toUserId);
+        var (check, chat) = await _unitOfWork.ChatRepository.CheckChatExist(fromUserId, toUserId);
 
         if (check)
             return chat?.ParseChatToDto()!;
 
-        var fromUser = await unitOfWork.UserRepository.GetUserByid(fromUserId);
-        var toUser = await unitOfWork.UserRepository.GetUserByid(toUserId);
+        var fromUser = await _unitOfWork.UserRepository.GetUserByid(fromUserId);
+        var toUser = await _unitOfWork.UserRepository.GetUserByid(toUserId);
 
         List<string> chatNames = new()
         {
@@ -48,7 +53,7 @@ public class ChatManager(IUnitOfWork unitOfWork)
             ChatNames = chatNames
         };
 
-        await unitOfWork.ChatRepository.AddChat(chat);
+        await _unitOfWork.ChatRepository.AddChat(chat);
 
         var fromUserChat = new UserChat()
         {
@@ -57,7 +62,7 @@ public class ChatManager(IUnitOfWork unitOfWork)
             ChatId = chat.Id
         };
 
-        await unitOfWork.UserChatRepository.AddUserChat(fromUserChat);
+        await _unitOfWork.UserChatRepository.AddUserChat(fromUserChat);
 
         var toUserChat = new UserChat()
         {
@@ -67,8 +72,15 @@ public class ChatManager(IUnitOfWork unitOfWork)
 
         };
 
-        await unitOfWork.UserChatRepository.AddUserChat(toUserChat);
+        await _unitOfWork.UserChatRepository.AddUserChat(toUserChat);
         return chat.ParseChatToDto();
+    }
+    public async Task<string> DeleteChat(Guid chatId)
+    {
+        var userId = _userHelper.GetUserId();
+        var chat = await _unitOfWork.ChatRepository.GetChatById(userId, chatId);
+        await _unitOfWork.ChatRepository.DeleteChatById(chat);
+        return "Delete successfuly!!!";
     }
     //public Task UpdateChat(UpdateChatModel model)
     //{

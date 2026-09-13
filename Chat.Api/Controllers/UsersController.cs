@@ -1,7 +1,7 @@
 ﻿using Chat.Api.Exceptions;
 using Chat.Api.Helpers;
 using Chat.Api.Managers;
-using Chat.Api.Models;
+using Chat.Api.Models.UserModels;
 using Chat.Api.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +22,6 @@ public class UsersController(UserManager userManager,
         var users = await _userManager.GetAllUsers();
         return Ok(users);
     }
-
     [Authorize]
     [HttpGet("profile")]
     public async Task<IActionResult> GetUserById()
@@ -61,11 +60,21 @@ public class UsersController(UserManager userManager,
             return BadRequest(e.Message);
         }
     }
-    [HttpPut("{userId:guid}/add-or-update-photo")]
-    public async Task<IActionResult> AddOrUpdateUserPhoto(Guid userId, [FromForm] FileClass fileClass)
+    [Authorize]
+    [HttpPut("/add-or-update-photo")]
+    public async Task<IActionResult> AddOrUpdateUserPhoto([FromForm] FileClass fileClass)
     {
+        var userId = _userHelper.GetUserId();
         var result = await _userManager.AddOrUpdatePhoto(userId, fileClass.File!);
         return Ok(result);
+    }
+    [Authorize]
+    [HttpPost("/update-bio")]
+    public async Task<IActionResult> UpdateBio([FromBody] string bio)
+    {
+        var userId = _userHelper.GetUserId();
+        await _userManager.UpdateBio(userId, bio);
+        return Ok();
     }
 }
 

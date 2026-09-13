@@ -46,19 +46,20 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidateAudience = true,
         IssuerSigningKey = new SymmetricSecurityKey(key),
         ValidateIssuerSigningKey = true,
-        ValidateLifetime = true,
-        LifetimeValidator = 
+        ValidateLifetime = true
     };
 });
 
 builder.Services.AddScoped<UserManager>();
 builder.Services.AddScoped<ChatManager>();
 builder.Services.AddScoped<JwtManager>();
+builder.Services.AddScoped<MessageManager>();
 builder.Services.AddScoped<UserHelper>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IChatRepository, ChatRepository>();
 builder.Services.AddScoped<IUserChatRepository, UserChatRepository>();
+builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddDbContext<ChatDbContext>(options =>

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Chat.Api.Extentions;
 
-public static class ParseToDtoExtention
+public static class ParseToDtoExtension
 {
     public static UserDto ParseUserToDto(this User user)
     {
@@ -34,6 +34,18 @@ public static class ParseToDtoExtention
     public static ChatDto ParseChatToDto(this Entities.Chat chat)
     {
         ChatDto dto = chat.Adapt<ChatDto>();
+        return dto;
+    }
+
+    public static List<MessageDto> ParseMessagesToDto(this List<Message> messages)
+    {
+        List<MessageDto> dtos = messages.Adapt<List<MessageDto>>();
+        return dtos;
+    }
+
+    public static MessageDto ParseMessageToDto(this Message message)
+    {
+        MessageDto dto = message.Adapt<MessageDto>();
         return dto;
     }
 }

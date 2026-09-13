@@ -9,4 +9,5 @@ public class Content
     public string Url { get; set; } = null!;
     public string? Type { get; set; }
     public int MessageId { get; set; }
+    public Message Message { get; set; } = null!;
 }

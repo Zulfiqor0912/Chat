@@ -16,6 +16,7 @@ public class ChatDbContext : DbContext
     //public DbSet<Content> Contents { get; set; }
     public DbSet<Entities.Chat> Chats { get; set; }
     public DbSet<UserChat> UserChats { get; set; }
+    public DbSet<Content> Contents { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -46,6 +47,17 @@ public class ChatDbContext : DbContext
                 .WithMany(ch => ch.Messages)
                 .HasForeignKey(m => m.ChatId)
                 .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<Content>(entity =>
+        {
+            entity.HasKey(c => c.Id);
+
+            entity.HasOne(c => c.Message)
+            .WithMany(m => m.Contents)
+            .HasForeignKey(c => c.MessageId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         });
     }
     

@@ -23,7 +23,22 @@ namespace Chat.Api.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Chat.Api.DTOs.ContentDto", b =>
+            modelBuilder.Entity("Chat.Api.Entities.Chat", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.PrimitiveCollection<List<string>>("ChatNames")
+                        .IsRequired()
+                        .HasColumnType("text[]");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Chats");
+                });
+
+            modelBuilder.Entity("Chat.Api.Entities.Content", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -43,25 +58,9 @@ namespace Chat.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MessageId")
-                        .IsUnique();
+                    b.HasIndex("MessageId");
 
-                    b.ToTable("ContentDto");
-                });
-
-            modelBuilder.Entity("Chat.Api.Entities.Chat", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.PrimitiveCollection<List<string>>("ChatNames")
-                        .IsRequired()
-                        .HasColumnType("text[]");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Chats");
+                    b.ToTable("Contents");
                 });
 
             modelBuilder.Entity("Chat.Api.Entities.Message", b =>
@@ -74,9 +73,6 @@ namespace Chat.Api.Migrations
 
                     b.Property<Guid>("ChatId")
                         .HasColumnType("uuid");
-
-                    b.Property<int>("ContentId")
-                        .HasColumnType("integer");
 
                     b.Property<DateTime>("EditedAt")
                         .HasColumnType("timestamp with time zone");
@@ -177,13 +173,15 @@ namespace Chat.Api.Migrations
                     b.ToTable("UserChats");
                 });
 
-            modelBuilder.Entity("Chat.Api.DTOs.ContentDto", b =>
+            modelBuilder.Entity("Chat.Api.Entities.Content", b =>
                 {
-                    b.HasOne("Chat.Api.Entities.Message", null)
-                        .WithOne("ContentDto")
-                        .HasForeignKey("Chat.Api.DTOs.ContentDto", "MessageId")
+                    b.HasOne("Chat.Api.Entities.Message", "Message")
+                        .WithMany("Contents")
+                        .HasForeignKey("MessageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Message");
                 });
 
             modelBuilder.Entity("Chat.Api.Entities.Message", b =>
@@ -233,7 +231,7 @@ namespace Chat.Api.Migrations
 
             modelBuilder.Entity("Chat.Api.Entities.Message", b =>
                 {
-                    b.Navigation("ContentDto");
+                    b.Navigation("Contents");
                 });
 
             modelBuilder.Entity("Chat.Api.Entities.User", b =>

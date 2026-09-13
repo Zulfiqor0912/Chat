@@ -4,7 +4,7 @@ using Chat.Api.Entities;
 using Chat.Api.Exceptions;
 using Chat.Api.Extentions;
 using Chat.Api.Helpers;
-using Chat.Api.Models;
+using Chat.Api.Models.UserModels;
 using Chat.Api.Repositories.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -73,6 +73,12 @@ public class UserManager(IUnitOfWork unitOfWork, JwtManager jwtManager)
         user.ProfilePhotoData = data;
         await _unitOfWork.UserRepository.UpdateUserById(user);
         return data;
+    }
+    public async Task UpdateBio(Guid userId, string bio)
+    {
+        var user = await _unitOfWork.UserRepository.GetUserByid(userId);
+        user.Bio = bio;
+        await _unitOfWork.UserRepository.UpdateUserById(user);
     }
     private async Task CheckForExist(string username)
     {
