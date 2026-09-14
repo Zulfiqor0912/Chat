@@ -49,4 +49,8 @@ public class MessageController(
         var result = await _messageManger.SendTextMessage(userId, chatId, model);
         return Ok(result);
     }
+    [HttpPost("send-file-message")]
+    public async Task<IActionResult> SendFileMessage(Guid userId, Guid chatId, FileModel model)
+    { 
+    }
 }

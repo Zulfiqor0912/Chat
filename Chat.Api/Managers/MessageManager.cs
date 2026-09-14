@@ -81,8 +81,21 @@ public class MessageManager(
         await _unitOfWork.MessageRepository.Addmessage(message);
         return message.ParseMessageToDto();
     }
-    //public Task SendFileMessage()
-    //{
-        
-    //}
+    public async Task SendFileMessage(Guid userId, Guid chatId, FileMode model)
+    {
+        var user = await _unitOfWork.UserRepository.GetUserByid(userId);
+        await _unitOfWork.UserChatRepository.GetUserChat(userId, chatId);
+
+        var content = new Content
+        {
+            
+        }
+
+        var message = new Message
+        {
+            FromUserId = userId,
+            FromUserName = user.Username,
+            ChatId = chatId
+        }
+    }
 }
