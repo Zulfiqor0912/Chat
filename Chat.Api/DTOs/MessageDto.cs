@@ -12,7 +12,7 @@ public class MessageDto
     public bool IsEdited { get; set; }
     public string FromUserName { get; set; } = null!;
     public MessageStatus Status { get; set; } = MessageStatus.Active;
-    public ICollection<ContentDto> ContentDtos { get; set; }
+    public ICollection<ContentDto> Contents { get; set; }
     public Guid ChatId { get; set; }
     public DateTime SendAt => DateTime.UtcNow;
     public DateTime EditedAt { get; set; }

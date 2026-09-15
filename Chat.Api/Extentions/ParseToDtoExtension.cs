@@ -48,6 +48,11 @@ public static class ParseToDtoExtension
         MessageDto dto = message.Adapt<MessageDto>();
         return dto;
     }
+    public static ContentDto ParseContentToDto(this Content content)
+    {
+        ContentDto dto = content.Adapt<ContentDto>();
+        return dto; 
+    }
 }
 
 

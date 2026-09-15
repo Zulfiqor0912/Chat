@@ -1,5 +1,6 @@
 ﻿using Chat.Api.Helpers;
 using Chat.Api.Managers;
+using Chat.Api.Models;
 using Chat.Api.Models.MessageModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -50,7 +51,10 @@ public class MessageController(
         return Ok(result);
     }
     [HttpPost("send-file-message")]
-    public async Task<IActionResult> SendFileMessage(Guid userId, Guid chatId, FileModel model)
+    public async Task<IActionResult> SendFileMessage(Guid chatId, FileModel model)
     { 
+        var userId = _userHelper.GetUserId();
+        var result = await _messageManger.SendFileMessage(userId, chatId, model);
+        return Ok(result);
     }
 }

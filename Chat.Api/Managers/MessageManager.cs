@@ -3,6 +3,7 @@ using Chat.Api.Entities;
 using Chat.Api.Exceptions;
 using Chat.Api.Extentions;
 using Chat.Api.Helpers;
+using Chat.Api.Models;
 using Chat.Api.Models.MessageModels;
 using Chat.Api.Repositories.Interfaces;
 using Mapster;
@@ -10,9 +11,11 @@ using Mapster;
 namespace Chat.Api.Managers;
 
 public class MessageManager(
-    IUnitOfWork unitOfWork)
+    IUnitOfWork unitOfWork,
+    IHostEnvironment hostEnvironment)
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IHostEnvironment _ihostEnvironment = hostEnvironment;
 
 
     public async Task<List<MessageDto>> GetMessages()
@@ -24,7 +27,7 @@ public class MessageManager(
         }
         else
         {
-            var dtos = ParseToDtoExtension.ParseMessagesToDto(messages);
+            var dtos = messages.ParseMessagesToDto();
             return dtos;
         }
     }
@@ -81,21 +84,44 @@ public class MessageManager(
         await _unitOfWork.MessageRepository.Addmessage(message);
         return message.ParseMessageToDto();
     }
-    public async Task SendFileMessage(Guid userId, Guid chatId, FileMode model)
+    public async Task<MessageDto> SendFileMessage(Guid userId, Guid chatId, FileModel model)
     {
         var user = await _unitOfWork.UserRepository.GetUserByid(userId);
         await _unitOfWork.UserChatRepository.GetUserChat(userId, chatId);
 
+        var ms = new MemoryStream();
+        await model.File.CopyToAsync(ms);
+        var data = ms.ToArray();
+        var filePath = GetFilePath();
+        await File.WriteAllBytesAsync(filePath, data);
+
         var content = new Content
         {
-            
-        }
+            Url = filePath,
+            Type = model.File.ContentType,
+        };
+
+        var contents = new List<Content>();
+        contents.Add(content);
 
         var message = new Message
         {
+            Text = string.Empty,
             FromUserId = userId,
             FromUserName = user.Username,
-            ChatId = chatId
-        }
+            ChatId = chatId,
+            Contents = contents
+        };
+
+        await _unitOfWork.MessageRepository.Addmessage(message);
+        return message.ParseMessageToDto();
+    }
+
+    private string GetFilePath()
+    {
+        var generalPath = _ihostEnvironment.ContentRootPath;
+        var name = Guid.NewGuid();
+        var fileName = generalPath +"\\wwwroot\\MessageFiles"+ name;
+        return fileName;
     }
 }

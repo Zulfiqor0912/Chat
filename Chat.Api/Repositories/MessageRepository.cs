@@ -16,7 +16,9 @@ public class MessageRepository(ChatDbContext dbContext) : IMessageRepository
 
     public async Task<List<Message>> GetMessage()
     {
-        var messages = await _dbContext.Messages.ToListAsync();
+        var messages = await _dbContext.Messages
+            .Include(m => m.Contents)
+            .ToListAsync();
         return messages;
     }
 
