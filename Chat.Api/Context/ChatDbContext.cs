@@ -1,4 +1,6 @@
-﻿using Chat.Api.Entities;
+﻿using Chat.Api.Constants;
+using Chat.Api.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Chat.Api.Context;
@@ -21,6 +23,22 @@ public class ChatDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        //var password = "admin";
+        //var user = new User
+        //{
+        //    Id = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+        //    FirsName = "Admin",
+        //    LastName = "Admin",
+        //    Username = "admin",
+        //    Role = Utility.Enums.UserRole.Admin,
+        //    Gender = UserConstants.Male
+        //};
+        //var passwordHash = new PasswordHasher<User>().HashPassword(user, password);
+        //user.PasswrodHash = passwordHash;
+
+        //modelBuilder.Entity<User>().HasData(new List<User>()
+        //{ user });
 
         modelBuilder.Entity<UserChat>(entity =>
         {

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Chat.Api.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Chat.Api.Migrations
 {
     [DbContext(typeof(ChatDbContext))]
-    partial class ChatDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260916184947_rol")]
+    partial class rol
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -148,6 +151,22 @@ namespace Chat.Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("e2b56228-a38b-46d9-a82d-a982e3ed0402"),
+                            Age = (byte)0,
+                            Bio = "",
+                            CreatedDateTime = new DateTime(2026, 9, 16, 18, 49, 46, 688, DateTimeKind.Utc).AddTicks(9962),
+                            FirsName = "Admin",
+                            Gender = "MALE",
+                            LastName = "Admin",
+                            PasswrodHash = "AQAAAAIAAYagAAAAEPYKiOHZSHatQQoKmaj+mMtHwXtYcl0tRR4wxHvbckxH2ogkDG5ZChnYRjuAh0H29g==",
+                            Role = 0,
+                            Status = 1,
+                            Username = "admin"
+                        });
                 });
 
             modelBuilder.Entity("Chat.Api.Entities.UserChat", b =>

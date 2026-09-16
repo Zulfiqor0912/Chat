@@ -1,9 +1,13 @@
+using Chat.Api.Constants;
 using Chat.Api.Context;
+using Chat.Api.Entities;
 using Chat.Api.Helpers;
 using Chat.Api.Managers;
 using Chat.Api.Repositories;
 using Chat.Api.Repositories.Interfaces;
+using Chat.Api.Utility.Enums;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
@@ -66,7 +70,28 @@ builder.Services.AddDbContext<ChatDbContext>(options =>
 {
     options.UseNpgsql(
         builder.Configuration.GetConnectionString("DefaultConnection")
-        );
+        )
+    .UseSeeding((context, _) =>
+    {
+        var user = context.Set<User>().FirstOrDefault(u => u.Username == "admin");
+        if (user is null)
+        {
+            user = new User
+            {
+                Id = Guid.NewGuid(),
+                FirsName = "Admin",
+                LastName = "Admin",
+                Username = "admin",
+                Role = UserRole.Admin,
+                Gender = UserConstants.Male
+            };
+            var passwordHash = new PasswordHasher<User>().HashPassword(user, "admin"); //password and password: admin
+            user.PasswrodHash = passwordHash;
+
+            context.Set<User>().Add(user);
+            context.SaveChanges();
+        }
+    });
 });
 
 var app = builder.Build();

@@ -14,6 +14,7 @@ public class User
     [Required]
     public string PasswrodHash { get; set; } = null!;
     public byte Age { get; set; }
+    public UserRole Role { get; set; } = UserRole.User;
     [Required]
     public string Gender { get; set; } = null!;
     public byte[]? ProfilePhotoData { get; set; }
