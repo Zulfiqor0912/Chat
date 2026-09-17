@@ -7,4 +7,6 @@ public class UserConstants
     public const string JpgType = "image/jpg";
     public const string JpgType2 = "image/jpeg";
     public const string PngType = "image/png";
+    public const string Admin = "admin";
+    public const string User = "user";
 }

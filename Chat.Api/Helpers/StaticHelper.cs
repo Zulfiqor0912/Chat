@@ -19,7 +19,6 @@ public static class StaticHelper
             throw new NotFotoTypeException();
     }
         
-
     public static byte[] PhotoFileToArray(IFormFile file)
     {
         if (file.Length > 5 * 1024 * 1024) //ms ni array ko'rinishiga o'tkazdim. 5mb gacha byte ko'rinishida saqlayman.

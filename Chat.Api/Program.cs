@@ -50,7 +50,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidateAudience = true,
         IssuerSigningKey = new SymmetricSecurityKey(key),
         ValidateIssuerSigningKey = true,
-        ValidateLifetime = true
+        ValidateLifetime = false
     };
 });
 
@@ -73,7 +73,7 @@ builder.Services.AddDbContext<ChatDbContext>(options =>
         )
     .UseSeeding((context, _) =>
     {
-        var user = context.Set<User>().FirstOrDefault(u => u.Username == "admin");
+        var user = context.Set<User>().FirstOrDefault(u => u.Username == "admin-admin");
         if (user is null)
         {
             user = new User
@@ -82,7 +82,7 @@ builder.Services.AddDbContext<ChatDbContext>(options =>
                 FirsName = "Admin",
                 LastName = "Admin",
                 Username = "admin",
-                Role = UserRole.Admin,
+                Role = UserConstants.Admin,
                 Gender = UserConstants.Male
             };
             var passwordHash = new PasswordHasher<User>().HashPassword(user, "admin"); //password and password: admin

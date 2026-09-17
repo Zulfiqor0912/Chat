@@ -1,5 +1,6 @@
 ﻿using Chat.Api.Utility.Enums;
 using System.ComponentModel.DataAnnotations;
+using Chat.Api.Constants;
 
 namespace Chat.Api.Entities;
 
@@ -14,7 +15,7 @@ public class User
     [Required]
     public string PasswrodHash { get; set; } = null!;
     public byte Age { get; set; }
-    public UserRole Role { get; set; } = UserRole.User;
+    public string Role { get; set; } = UserConstants.User;
     [Required]
     public string Gender { get; set; } = null!;
     public byte[]? ProfilePhotoData { get; set; }

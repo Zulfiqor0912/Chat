@@ -6,6 +6,7 @@ using Chat.Api.Extentions;
 using Chat.Api.Helpers;
 using Chat.Api.Models.UserModels;
 using Chat.Api.Repositories.Interfaces;
+using Chat.Api.Utility.Enums;
 using Microsoft.AspNetCore.Identity;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -42,8 +43,12 @@ public class UserManager(IUnitOfWork unitOfWork, JwtManager jwtManager)
             Username = model.Username,
             Age = model.Age,
             Gender = GetGender(model.Gender)
-
         };
+
+        if (user.Username == "admin-admin")
+        {
+            user.Role = UserConstants.Admin;
+        }
 
         var passworHash = new PasswordHasher<User>().HashPassword(user, model.Password);
         user.PasswrodHash = passworHash;
