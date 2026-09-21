@@ -1,4 +1,5 @@
-﻿using Chat.Api.Helpers;
+﻿using Chat.Api.Constants;
+using Chat.Api.Helpers;
 using Chat.Api.Managers;
 using Chat.Api.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -6,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Chat.Api.Controllers;
 
-[Authorize]
+[Authorize(Roles = $"{UserConstants.Admin},{UserConstants.User}")]
 [Route("api/users/user_id/[controller]")]
 [ApiController]
 public class ChatsController(

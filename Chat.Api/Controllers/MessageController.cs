@@ -17,7 +17,7 @@ public class MessageController(
     UserHelper userHelper) : ControllerBase
 {
     
-    [Authorize(Roles = UserConstants.Admin)]
+    [Authorize(Roles = UserConstants.Admin)] //only admin
     [Route("/api/messages")]
     [HttpGet]
     public async Task<IActionResult> GetAllMessages()
@@ -26,7 +26,7 @@ public class MessageController(
         return Ok(messages);
     }
     
-    [Authorize(Roles = UserConstants.User)]
+    [Authorize(Roles = $"{UserConstants.Admin},{UserConstants.User}")]
     [HttpGet]
     public async Task<IActionResult> GetMessagesOfChat(Guid chatId)
     {
@@ -43,7 +43,7 @@ public class MessageController(
         return Ok(message);
     }
     
-    [Authorize(Roles = UserConstants.User)]
+    [Authorize(Roles = UserConstants.Admin)]
     [HttpGet("{messageId:int}")]
     public async Task<IActionResult> GetMessageById(Guid chatId, int messageId)
     {
@@ -51,7 +51,7 @@ public class MessageController(
         return Ok(message);
     }
     
-    [Authorize(Roles = UserConstants.User)]
+    [Authorize(Roles = $"{UserConstants.Admin},{UserConstants.User}")]
     [HttpPost("send-text-message")]
     public async Task<IActionResult> SendTextMessage(Guid chatId, SendTextMessageModel model)
     {
@@ -60,7 +60,7 @@ public class MessageController(
         return Ok(result);
     }
     
-    [Authorize(Roles = UserConstants.User)]
+    [Authorize(Roles = $"{UserConstants.Admin},{UserConstants.User}")]
     [HttpPost("send-file-message")]
     public async Task<IActionResult> SendFileMessage(Guid chatId, FileModel model)
     { 

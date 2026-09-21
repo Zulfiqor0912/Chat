@@ -38,7 +38,7 @@ public class UserRepository(ChatDbContext dbContext) : IUserRepository
         return user!;
     }
 
-    public async Task UpdateUserById(User user)
+    public async Task UpdateUser(User user)
     {
         dbContext.Users.Update(user);
         await dbContext.SaveChangesAsync();

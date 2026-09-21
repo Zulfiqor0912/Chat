@@ -14,21 +14,19 @@ namespace Chat.Api.Managers;
 
 public class UserManager(IUnitOfWork unitOfWork, JwtManager jwtManager)
 {
-    private readonly IUnitOfWork _unitOfWork = unitOfWork;
-    private readonly JwtManager _jwtmanager = jwtManager;
     public async Task<List<UserDto>> GetAllUsers()
     {
-        var users = await _unitOfWork.UserRepository.GetAllUsers();
+        var users = await unitOfWork.UserRepository.GetAllUsers();
         return users.ParseUserDtos();
     }
     public async Task<UserDto> GetUserById(Guid id)
     {
-        var user = await _unitOfWork.UserRepository.GetUserByid(id);
+        var user = await unitOfWork.UserRepository.GetUserByid(id);
         return user.ParseUserToDto();
     }
     public async Task<UserDto> GetUserByUsername(string username)
     {
-        var user = await _unitOfWork.UserRepository.GetUserByUsername(username)!;
+        var user = await unitOfWork.UserRepository.GetUserByUsername(username)!;
         return user.ParseUserToDto();
     }
     public async Task<UserDto> Register(CreateUserModel model)
@@ -52,42 +50,54 @@ public class UserManager(IUnitOfWork unitOfWork, JwtManager jwtManager)
 
         var passworHash = new PasswordHasher<User>().HashPassword(user, model.Password);
         user.PasswrodHash = passworHash;
-        await _unitOfWork.UserRepository.AddUser(user);
+        await unitOfWork.UserRepository.AddUser(user);
         return user.ParseUserToDto();
 
     }
     public async Task<string> Login(LoginModel model)
     {
-        var user = await _unitOfWork.UserRepository.GetUserByUsername(model.Username)!;
+        var user = await unitOfWork.UserRepository.GetUserByUsername(model.Username)!;
         if (user is null)
             throw new Exception("Username is invalid");
         var result = new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswrodHash, model.Passwor);
         if (result == PasswordVerificationResult.Failed)
             throw new Exception("Invalid password");
 
-        var token = _jwtmanager.GenerateToken(user);
+        if (string.IsNullOrEmpty(user.Role))
+        {
+            user.Role = UserConstants.User;
+            await unitOfWork.UserRepository.UpdateUser(user);
+        }
+        
+        var token = jwtManager.GenerateToken(user);
         return token; 
     }
     public async Task<byte[]> AddOrUpdatePhoto(Guid userId, IFormFile file)
     {
-        var user = await _unitOfWork.UserRepository.GetUserByid(userId);
+        var user = await unitOfWork.UserRepository.GetUserByid(userId);
 
         StaticHelper.IsPhoto(file);
         var data = StaticHelper.PhotoFileToArray(file);
 
         user.ProfilePhotoData = data;
-        await _unitOfWork.UserRepository.UpdateUserById(user);
+        await unitOfWork.UserRepository.UpdateUser(user);
         return data;
     }
     public async Task UpdateBio(Guid userId, string bio)
     {
-        var user = await _unitOfWork.UserRepository.GetUserByid(userId);
+        var user = await unitOfWork.UserRepository.GetUserByid(userId);
         user.Bio = bio;
-        await _unitOfWork.UserRepository.UpdateUserById(user);
+        await unitOfWork.UserRepository.UpdateUser(user);
     }
+
+    public async Task<UserDto> UpdateUserGeneralInfo(UpdateUserModel model)
+    {
+        
+    }
+
     private async Task CheckForExist(string username)
     {
-        var user = await _unitOfWork.UserRepository.GetUserByUsername(username)!;
+        var user = await unitOfWork.UserRepository.GetUserByUsername(username)!;
         if (user is not null)
             throw new UserExistException();
     }
