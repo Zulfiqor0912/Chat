@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Chat.Api.Constants;
 using Chat.Api.Context;
 using Chat.Api.Entities;
@@ -50,7 +51,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidateAudience = true,
         IssuerSigningKey = new SymmetricSecurityKey(key),
         ValidateIssuerSigningKey = true,
-        ValidateLifetime = false
+        ValidateLifetime = false,
+        RoleClaimType = ClaimTypes.Role
     };
 });
 
@@ -82,7 +84,7 @@ builder.Services.AddDbContext<ChatDbContext>(options =>
                 FirsName = "Admin",
                 LastName = "Admin",
                 Username = "admin",
-                Role = UserConstants.Admin,
+                Role = UserConstants.Admin.ToLower(),
                 Gender = UserConstants.Male
             };
             var passwordHash = new PasswordHasher<User>().HashPassword(user, "admin"); //password and password: admin
