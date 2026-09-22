@@ -90,7 +90,39 @@ public class UserManager(IUnitOfWork unitOfWork, JwtManager jwtManager)
         await unitOfWork.UserRepository.UpdateUser(user);
     }
 
-    public async Task<UserDto> UpdateUserGeneralInfo(UpdateUserModel model)
+    public async Task<UserDto> UpdateUserGeneralInfo(Guid id, UpdateUserGeneralInfo generalInfo)
+    {
+        var user = await unitOfWork.UserRepository.GetUserByid(id);
+        bool check = false;
+        if (!string.IsNullOrEmpty(generalInfo.LastName))
+        {
+            user.LastName = generalInfo.LastName;
+            check = true;
+        }
+        if (!string.IsNullOrEmpty(generalInfo.FirsName))
+        {
+            user.FirsName = generalInfo.FirsName;
+            check = true;
+        }
+        if (!string.IsNullOrEmpty(generalInfo.Age))
+        {
+            byte age;
+            try
+            {
+                age = byte.Parse(generalInfo.Age);
+                user.Age = age;
+                check = true;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Age must be number");
+            }
+        }
+        if(check) await unitOfWork.UserRepository.UpdateUser(user);
+        return user.ParseUserToDto();
+    }
+
+    public async Task<UserDto> UpdateUsername(Guid id, UpdateUsernameModel model)
     {
         
     }
