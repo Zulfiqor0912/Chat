@@ -8,20 +8,30 @@ using Chat.Api.Models.UserModels;
 using Chat.Api.Repositories.Interfaces;
 using Chat.Api.Utility.Enums;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Caching.Memory;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Chat.Api.Managers;
 
-public class UserManager(IUnitOfWork unitOfWork, JwtManager jwtManager)
+public class UserManager(
+    IUnitOfWork unitOfWork, 
+    JwtManager jwtManager,
+    IMemoryCache memoryCache)
 {
+    private const string Key = "users";
     public async Task<List<UserDto>> GetAllUsers()
     {
+        if (memoryCache.TryGetValue(Key, out List<UserDto>? userDtos))
+        {
+            return userDtos!;
+        }
         var users = await unitOfWork.UserRepository.GetAllUsers();
+        memoryCache.Set(Key, users.ParseUserDtos());
         return users.ParseUserDtos();
     }
     public async Task<UserDto> GetUserById(Guid id)
     {
-        var user = await unitOfWork.UserRepository.GetUserByid(id);
+        var user = await unitOfWork.UserRepository.GetUserById(id);
         return user.ParseUserToDto();
     }
     public async Task<UserDto> GetUserByUsername(string username)
@@ -74,7 +84,7 @@ public class UserManager(IUnitOfWork unitOfWork, JwtManager jwtManager)
     }
     public async Task<byte[]> AddOrUpdatePhoto(Guid userId, IFormFile file)
     {
-        var user = await unitOfWork.UserRepository.GetUserByid(userId);
+        var user = await unitOfWork.UserRepository.GetUserById(userId);
 
         StaticHelper.IsPhoto(file);
         var data = StaticHelper.PhotoFileToArray(file);
@@ -85,14 +95,14 @@ public class UserManager(IUnitOfWork unitOfWork, JwtManager jwtManager)
     }
     public async Task UpdateBio(Guid userId, string bio)
     {
-        var user = await unitOfWork.UserRepository.GetUserByid(userId);
+        var user = await unitOfWork.UserRepository.GetUserById(userId);
         user.Bio = bio;
         await unitOfWork.UserRepository.UpdateUser(user);
     }
 
     public async Task<UserDto> UpdateUserGeneralInfo(Guid id, UpdateUserGeneralInfo generalInfo)
     {
-        var user = await unitOfWork.UserRepository.GetUserByid(id);
+        var user = await unitOfWork.UserRepository.GetUserById(id);
         bool check = false;
         if (!string.IsNullOrEmpty(generalInfo.LastName))
         {
@@ -124,7 +134,11 @@ public class UserManager(IUnitOfWork unitOfWork, JwtManager jwtManager)
 
     public async Task<UserDto> UpdateUsername(Guid id, UpdateUsernameModel model)
     {
-        
+        var user = await unitOfWork.UserRepository.GetUserById(id);
+        await CheckForExist(model.Username);
+        user.Username = model.Username;
+        await unitOfWork.UserRepository.UpdateUser(user);
+        return user.ParseUserToDto();
     }
 
     private async Task CheckForExist(string username)

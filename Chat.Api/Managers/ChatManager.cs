@@ -37,8 +37,8 @@ public class ChatManager(
         if (check)
             return chat?.ParseChatToDto()!;
 
-        var fromUser = await unitOfWork.UserRepository.GetUserByid(fromUserId);
-        var toUser = await unitOfWork.UserRepository.GetUserByid(toUserId);
+        var fromUser = await unitOfWork.UserRepository.GetUserById(fromUserId);
+        var toUser = await unitOfWork.UserRepository.GetUserById(toUserId);
 
         List<string> chatNames = new()
         {

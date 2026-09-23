@@ -11,7 +11,8 @@ namespace Chat.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class UsersController(UserManager userManager,
+public class UsersController(
+    UserManager userManager,
     UserHelper userHelper) : ControllerBase
 {
     [Authorize(Roles = $"{UserConstants.Admin},{UserConstants.User}")]
@@ -74,6 +75,38 @@ public class UsersController(UserManager userManager,
         var userId = userHelper.GetUserId();
         await userManager.UpdateBio(userId, bio);
         return Ok();
+    }
+    
+    [Authorize(Roles = $"{UserConstants.Admin},{UserConstants.User}")]
+    [HttpPost("/update-user-general-info")]
+    public async Task<IActionResult> UpdateUserGeneralInfo([FromBody] UpdateUserGeneralInfo info)
+    {
+        try
+        {
+            var id = userHelper.GetUserId();
+            var result = await userManager.UpdateUserGeneralInfo(id, info);
+            return Ok(result);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message); 
+        }
+    }
+    
+    [Authorize(Roles = $"{UserConstants.Admin},{UserConstants.User}")]
+    [HttpPost("/update-username")]
+    public async Task<IActionResult> UpdateUsername([FromBody] UpdateUsernameModel model)
+    {
+        try
+        {
+            var id = userHelper.GetUserId();
+            var result = await userManager.UpdateUsername(id, model);
+            return Ok(result);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
     }
 }
 

@@ -56,16 +56,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     };
 });
 
-builder.Services.AddScoped<UserManager>();
-builder.Services.AddScoped<ChatManager>();
-builder.Services.AddScoped<JwtManager>();
-builder.Services.AddScoped<MessageManager>();
-builder.Services.AddScoped<UserHelper>();
+builder.Services.AddMemoryCache();
+
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IChatRepository, ChatRepository>();
 builder.Services.AddScoped<IUserChatRepository, UserChatRepository>();
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+
+builder.Services.AddScoped<UserManager>();
+builder.Services.AddScoped<ChatManager>();
+builder.Services.AddScoped<JwtManager>();
+builder.Services.AddScoped<MessageManager>();
+builder.Services.AddScoped<UserHelper>();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddDbContext<ChatDbContext>(options =>

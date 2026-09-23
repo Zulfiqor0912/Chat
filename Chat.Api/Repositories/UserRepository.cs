@@ -26,7 +26,7 @@ public class UserRepository(ChatDbContext dbContext) : IUserRepository
         return users is null ? throw new UserNotFoundException() : users;
     }
 
-    public async Task<User> GetUserByid(Guid id)
+    public async Task<User> GetUserById(Guid id)
     {
         var user = await dbContext.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id);
         return user is null ? throw new UserNotFoundException() : user;
@@ -34,7 +34,7 @@ public class UserRepository(ChatDbContext dbContext) : IUserRepository
 
     public async Task<User>? GetUserByUsername(string username)
     {
-        var user = await dbContext.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Username == username);
+        var user = await dbContext.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Username.ToLower() == username.ToLower());
         return user!;
     }
 

@@ -71,7 +71,7 @@ public class MessageManager(
     public async Task<MessageDto> SendTextMessage(Guid userId,Guid chatId, SendTextMessageModel model)
     {
         await _unitOfWork.UserChatRepository.GetUserChat(userId, chatId);
-        var user = await _unitOfWork.UserRepository.GetUserByid(userId);
+        var user = await _unitOfWork.UserRepository.GetUserById(userId);
 
         var message = new Message
         {
@@ -86,7 +86,7 @@ public class MessageManager(
     }
     public async Task<MessageDto> SendFileMessage(Guid userId, Guid chatId, FileModel model)
     {
-        var user = await _unitOfWork.UserRepository.GetUserByid(userId);
+        var user = await _unitOfWork.UserRepository.GetUserById(userId);
         await _unitOfWork.UserChatRepository.GetUserChat(userId, chatId);
 
         var ms = new MemoryStream();
