@@ -6,37 +6,53 @@ using Chat.Api.Extentions;
 using Chat.Api.Helpers;
 using Chat.Api.Models.UserModels;
 using Chat.Api.Repositories.Interfaces;
-using Chat.Api.Utility.Enums;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Caching.Memory;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Chat.Api.Managers;
 
 public class UserManager(
     IUnitOfWork unitOfWork, 
     JwtManager jwtManager,
-    IMemoryCache memoryCache)
+    MemoryCacheManager memoryCacheManager)
 {
     private const string Key = "users";
     public async Task<List<UserDto>> GetAllUsers()
     {
-        if (memoryCache.TryGetValue(Key, out List<UserDto>? userDtos))
+        var dtos = memoryCacheManager.GetDtos(Key);
+        if (dtos is not null)
         {
-            return userDtos!;
+            return (List<UserDto>)dtos;
         }
         var users = await unitOfWork.UserRepository.GetAllUsers();
-        memoryCache.Set(Key, users.ParseUserDtos());
+        memoryCacheManager.AddOrUpdateDtos(Key, users.ParseUserDtos());
         return users.ParseUserDtos();
     }
     public async Task<UserDto> GetUserById(Guid id)
     {
+        var dtos = memoryCacheManager.GetDtos(Key);
+        if (dtos is not null)
+        {
+            List<UserDto> users = (List<UserDto>)dtos;
+            var userDto = users.FirstOrDefault(u => u.Id == id);
+            if (userDto is null)
+                throw new UserNotFoundException();
+        }
         var user = await unitOfWork.UserRepository.GetUserById(id);
+        if (user is null)
+            throw new UserNotFoundException();
+        
+        memoryCacheManager.AddOrUpdateDtos(Key,  (await unitOfWork.UserRepository.GetAllUsers()).ParseUserDtos());
         return user.ParseUserToDto();
     }
     public async Task<UserDto> GetUserByUsername(string username)
     {
         var user = await unitOfWork.UserRepository.GetUserByUsername(username)!;
+        if (user is null)
+            throw new UserNotFoundException();
+        memoryCacheManager.AddOrUpdateDtos(
+            Key,
+            (await unitOfWork.UserRepository.GetAllUsers()).ParseUserDtos()
+        );
         return user.ParseUserToDto();
     }
     public async Task<UserDto> Register(CreateUserModel model)
@@ -91,6 +107,10 @@ public class UserManager(
 
         user.ProfilePhotoData = data;
         await unitOfWork.UserRepository.UpdateUser(user);
+        memoryCacheManager.AddOrUpdateDtos(
+            Key,
+            (await unitOfWork.UserRepository.GetAllUsers()).ParseUserDtos()
+        );
         return data;
     }
     public async Task UpdateBio(Guid userId, string bio)
@@ -98,8 +118,11 @@ public class UserManager(
         var user = await unitOfWork.UserRepository.GetUserById(userId);
         user.Bio = bio;
         await unitOfWork.UserRepository.UpdateUser(user);
+        memoryCacheManager.AddOrUpdateDtos(
+            Key,
+            (await unitOfWork.UserRepository.GetAllUsers()).ParseUserDtos()
+        );
     }
-
     public async Task<UserDto> UpdateUserGeneralInfo(Guid id, UpdateUserGeneralInfo generalInfo)
     {
         var user = await unitOfWork.UserRepository.GetUserById(id);
@@ -128,16 +151,27 @@ public class UserManager(
                 throw new Exception("Age must be number");
             }
         }
-        if(check) await unitOfWork.UserRepository.UpdateUser(user);
+
+        if (check)
+        {
+            await unitOfWork.UserRepository.UpdateUser(user);
+            memoryCacheManager.AddOrUpdateDtos(
+                Key,
+                (await unitOfWork.UserRepository.GetAllUsers()).ParseUserDtos()
+                );
+        }
         return user.ParseUserToDto();
     }
-
     public async Task<UserDto> UpdateUsername(Guid id, UpdateUsernameModel model)
     {
         var user = await unitOfWork.UserRepository.GetUserById(id);
         await CheckForExist(model.Username);
         user.Username = model.Username;
         await unitOfWork.UserRepository.UpdateUser(user);
+        memoryCacheManager.AddOrUpdateDtos(
+            Key,
+            (await unitOfWork.UserRepository.GetAllUsers()).ParseUserDtos()
+        );
         return user.ParseUserToDto();
     }
 

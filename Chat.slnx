@@ -4,4 +4,5 @@
     <File Path="Learn.txt" />
   </Folder>
   <Project Path="Chat.Api/Chat.Api.csproj" Id="900d5278-39f8-415c-a804-da14c5aa704e" />
+  <Project Path="Chat.Client/Chat.Client.csproj" Id="73db4476-d398-4af1-bab0-6555a0ab467c" />
 </Solution>

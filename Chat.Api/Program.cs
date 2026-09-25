@@ -69,6 +69,7 @@ builder.Services.AddScoped<ChatManager>();
 builder.Services.AddScoped<JwtManager>();
 builder.Services.AddScoped<MessageManager>();
 builder.Services.AddScoped<UserHelper>();
+builder.Services.AddScoped<MemoryCacheManager>();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddDbContext<ChatDbContext>(options =>

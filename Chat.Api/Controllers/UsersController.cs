@@ -22,6 +22,7 @@ public class UsersController(
         var users = await userManager.GetAllUsers();
         return Ok(users);
     }
+    
     [Authorize(Roles = $"{UserConstants.Admin},{UserConstants.User}")]
     [HttpGet("profile")]
     public async Task<IActionResult> GetUserById()
@@ -41,12 +42,14 @@ public class UsersController(
             return BadRequest(e.Message);
         }
     }
+    
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] CreateUserModel model)
     {
         var result = await userManager.Register(model);
         return Ok();
     }
+    
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginModel model)
     {
@@ -60,6 +63,7 @@ public class UsersController(
             return BadRequest(e.Message);
         }
     }
+    
     [Authorize(Roles = $"{UserConstants.Admin},{UserConstants.User}")]
     [HttpPut("/add-or-update-photo")]
     public async Task<IActionResult> AddOrUpdateUserPhoto([FromForm] FileClass fileClass)
@@ -68,6 +72,7 @@ public class UsersController(
         var result = await userManager.AddOrUpdatePhoto(userId, fileClass.File!);
         return Ok(result);
     }
+    
     [Authorize(Roles = $"{UserConstants.Admin},{UserConstants.User}")]
     [HttpPost("/update-bio")]
     public async Task<IActionResult> UpdateBio([FromBody] string bio)
