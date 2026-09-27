@@ -1,0 +1,8 @@
+﻿@page "/login-successfully/{token}"
+
+<h1>Your token is @Token</h1>
+
+@code {
+    [Parameter]
+    public string Token { get; set; }
+}

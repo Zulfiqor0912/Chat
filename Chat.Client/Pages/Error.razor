@@ -1,0 +1,11 @@
+﻿@page "/error/{text}";
+<p>
+    Error is
+
+    @Text
+</p>
+
+@code {
+    [Parameter]
+    public string? Text { get; set; }
+}
