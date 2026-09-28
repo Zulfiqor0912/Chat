@@ -1,9 +1,6 @@
 ﻿@page "/login"
-@using System.Net
-@using Chat.Client.Models
-@inject HttpClient Client
-@inject NavigationManager Manager
-
+@inherits LoginBase
+    
 <h3>Login</h3>
 
 <form>
@@ -21,22 +18,5 @@
 </form>
 
 @code {
-    private LoginModel _model = new();
-    private string? response { get; set; }
-
-    private async Task LoginClicked()
-    {
-        string url = "https://localhost:7109/api/Users/login";
-        var result = await Client.PostAsJsonAsync(url, _model);
-
-        var response = await result.Content.ReadAsStringAsync();
-
-        var isOk = result.StatusCode == HttpStatusCode.OK;
-        var isBadRequest = result.StatusCode == HttpStatusCode.BadRequest;
-
-        if (isOk) Manager.NavigateTo($"/login-successfully/{response}");
-        else if (isBadRequest) Manager.NavigateTo($"/error/{response}");
-
-    }
-
+    
 }
