@@ -1,5 +1,6 @@
 ﻿@page "/login"
 @inherits LoginBase
+
     
 <h3>Login</h3>
 
@@ -16,7 +17,18 @@
     
     <button type="button" class="btn-primary" @onclick="LoginClicked">Login</button>
 </form>
-
+@* 
 @code {
-    
-}
+    private async Task LoginClicked()
+    {
+        var (statusCode, response) = await UserIntegration.Login(_model);
+
+
+        bool isOk = statusCode == HttpStatusCode.OK;
+        bool isBadRequest = statusCode == HttpStatusCode.BadRequest;
+
+        if (isOk) Manager.NavigateTo($"/login-successfully/{response}");
+        else if (isBadRequest) Manager.NavigateTo($"/error/{response}");
+
+    }
+} *@

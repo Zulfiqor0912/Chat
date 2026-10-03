@@ -6,14 +6,17 @@ using System.Net;
 
 namespace Chat.Client.Pages;
 
-public class LoginBase(
-    IUserIntegration userIntegration,
-    NavigationManager navigationManager) : ComponentBase
+public class LoginBase : ComponentBase
 {
+    [Inject]
+    IUserIntegration userIntegration { get; set; }
+    [Inject]
+    NavigationManager navigationManager { get; set; }   
+
     protected LoginModel _model = new();
     protected string Token { get; set; }
 
-    private async Task LoginClicked()
+    protected async Task LoginClicked()
     {
         var (statusCode, response) = await userIntegration.Login(_model);
 
