@@ -47,7 +47,7 @@ public class UsersController(
     public async Task<IActionResult> Register([FromBody] CreateUserModel model)
     {
         var result = await userManager.Register(model);
-        return Ok();
+        return Ok(result);
     }
     
     [HttpPost("login")]

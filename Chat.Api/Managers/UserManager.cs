@@ -55,7 +55,7 @@ public class UserManager(
         );
         return user.ParseUserToDto();
     }
-    public async Task<UserDto> Register(CreateUserModel model)
+    public async Task<string> Register(CreateUserModel model)
     {
         await CheckForExist(model.Username);
 
@@ -77,7 +77,7 @@ public class UserManager(
         var passworHash = new PasswordHasher<User>().HashPassword(user, model.Password);
         user.PasswrodHash = passworHash;
         await unitOfWork.UserRepository.AddUser(user);
-        return user.ParseUserToDto();
+        return "Register successfully";
 
     }
     public async Task<string> Login(LoginModel model)

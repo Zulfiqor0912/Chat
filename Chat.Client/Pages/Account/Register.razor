@@ -9,19 +9,14 @@
 
         <label for="Firstname"><b>Firstname</b></label>
         <input type="text" @bind="@model.FirsName" placeholder="Enter Firstname" name="email" required>
-
         <label for="Lastname"><b>Lastname</b></label>
         <input type="text" @bind="@model.LastName" placeholder="Enter Lastname" name="email" required>
-
         <label for="Username"><b>Username</b></label>
         <input type="text" @bind = "@model.Username" placeholder="Enter Username" name="username" id="username" required>
-
         <label for="psw"><b>Password</b></label>
         <input type="password" @bind="@model.Password" placeholder="Enter Password" name="psw" id="psw" required>
-
         <label for="psw-repeat"><b>Repeat Password</b></label>
         <input type="password" @bind="@model.ConfirmPassword" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
-        
         <p>Please select your gender: </p>
         <select @bind="model.Gender" name="Gender" id="gender">
             <option value="male">Male</option>
