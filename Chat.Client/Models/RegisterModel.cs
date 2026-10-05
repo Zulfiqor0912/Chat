@@ -9,9 +9,8 @@ public class RegisterModel
     public string? LastName { get; set; }
     [Required]
     public string Username { get; set; } = null!;
-    public byte Age { get; set; }   
-    [Required]
-    public string Gender { get; set; } = null!;
+    public byte Age { get; set; }
+    public string? Gender { get; set; }
     [Required]
     public string Password { get; set; }
     [Required]

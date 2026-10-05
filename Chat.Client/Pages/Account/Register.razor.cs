@@ -19,7 +19,7 @@ public partial class RegisterBase : ComponentBase
         var (statusCode, response) = await userIntegration.Register(model);
 
         if (statusCode == HttpStatusCode.OK)
-            navigationManager.NavigateTo("/login");
+            navigationManager.NavigateTo("/account/login");
         else if (statusCode == HttpStatusCode.BadRequest)
             navigationManager.NavigateTo($"/error/{response}");
     }
