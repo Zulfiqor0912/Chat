@@ -1,0 +1,36 @@
+﻿@page "/account/users"
+@inherits UsersBase
+
+<button type="submit" class="btn btn-primary" @onclick="GetAllusers">Get All Users</button>
+
+@if (Users is not null || Users?.Count > 0)
+{
+    <table>
+        <tr>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Username</th>
+            <th>Age</th>
+            <th>Role</th>
+            <th>Gender</th>
+            <th>Photo</th>
+            <th>Bio</th>
+            <th>CreatedDateTime</th>
+        </tr>
+        @foreach (var user in Users)
+        {
+            <tr>
+                <td>@user.FirsName</td>
+                <td>@user.LastName</td>
+                <td>@user.Username</td>
+                <td>@user.Age</td>
+                <td>@user.Role</td>
+                <td>@user.Gender</td>
+                <td>@user.ProfilePhotoData</td>
+                <td>@user.Bio</td>
+                <td>@user.CreatedDateTime</td>
+            </tr>
+        }
+    </table>
+}
+

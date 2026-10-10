@@ -10,7 +10,7 @@ public class RegisterModel
     [Required]
     public string Username { get; set; } = null!;
     public byte Age { get; set; }
-    public string? Gender { get; set; }
+    public string Gender { get; set; } = "MALE";
     [Required]
     public string Password { get; set; }
     [Required]

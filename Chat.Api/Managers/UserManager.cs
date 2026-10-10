@@ -183,6 +183,7 @@ public class UserManager(
     }
     private string GetGender(string gender)
     {
+        if (gender is null) return UserConstants.Male;
         return gender.ToUpper() == UserConstants.Female ? UserConstants.Female : UserConstants.Male;
     }
 }
