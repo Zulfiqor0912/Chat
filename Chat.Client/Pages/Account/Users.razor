@@ -1,8 +1,6 @@
 ﻿@page "/account/users"
 @inherits UsersBase
 
-<button type="submit" class="btn btn-primary" @onclick="GetAllusers">Get All Users</button>
-
 @if (Users is not null || Users?.Count > 0)
 {
     <table>

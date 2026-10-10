@@ -12,7 +12,12 @@ public partial class UsersBase : ComponentBase
     NavigationManager navigationManager { get; set; }
     protected List<UserDto>? Users { get; set; }
 
-    public async Task GetAllusers()
+    protected override async Task OnInitializedAsync()
+    {
+        await  GetAllusers();
+    }
+
+    private async Task GetAllusers()
     {
         var (statusCode, response) = await userIntegration.GetAllUsers();
         if (statusCode == System.Net.HttpStatusCode.OK)

@@ -2,16 +2,29 @@
 using Chat.Client.Models;
 using Chat.Client.Models.UserModels;
 using Chat.Client.Repositories.Contract;
+using D20Tek.Blazor.BrowserStorage;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
 namespace Chat.Client.Repositories;
 
-public class UserIntegration(HttpClient httpClient) : IUserIntegration
+public class UserIntegration(HttpClient httpClient, ILocalStorageService localStorageService) : IUserIntegration
 {
     public async Task<Tuple<HttpStatusCode, object>> GetAllUsers()
     {
         var url = "api/Users";
+        var storageResult = await localStorageService.GetAsync<string>("token");
+
+        if (storageResult.IsSuccess)
+        {
+            var token = storageResult.Value;
+            if (!string.IsNullOrEmpty(token))
+            {
+                httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", token);
+            }
+        }
         var result = await httpClient.GetAsync(url);
         var statusCode = result.StatusCode;
         if (statusCode == HttpStatusCode.OK)

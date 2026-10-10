@@ -12,7 +12,13 @@ public partial class RegisterBase : ComponentBase
     [Inject]
     NavigationManager navigationManager { get; set; }
 
-    protected RegisterModel model = new RegisterModel();
+    protected RegisterModel model { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        model = new ();
+        StateHasChanged();
+    }
 
     protected async Task RegisterClicked()
     {
