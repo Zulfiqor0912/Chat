@@ -1,16 +1,20 @@
-﻿using Microsoft.AspNetCore.Components.Authorization;
+﻿using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Components.Authorization;
 using System.Security.Claims;
 
 namespace Chat.Client.Services;
 
-public class CustomAuthHandler : AuthenticationStateProvider
+public class CustomAuthHandler(StorageService storageService) : AuthenticationStateProvider
 {
-    public override Task<AuthenticationState> GetAuthenticationStateAsync()
+    public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        throw new NotImplementedException();
+        var (userId, username, role) = await ParseJwtToken();
+        var claimsPrincipal = await SetClaims(userId, username, role);
+        NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(claimsPrincipal)));
+        return await Task.FromResult(new AuthenticationState(claimsPrincipal));
     }
 
-    public async Task<ClaimsPrincipal> SetClaims(string? userId, string? username, string? role)
+    private async Task<ClaimsPrincipal> SetClaims(string? userId, string? username, string? role)
     {
         var check = string.IsNullOrEmpty(userId)
             || string.IsNullOrEmpty(username)
@@ -30,8 +34,20 @@ public class CustomAuthHandler : AuthenticationStateProvider
         return claimsPrincipal;
     }
 
-    public async Task ParseJwtToken()
+    private async Task<Tuple<string, string, string>> ParseJwtToken()
     {
+        var token = await storageService.GetToken();
+
+        if (string.IsNullOrEmpty(token))
+            return new(null!, null!, null!);
         
+        var jwtSecurity = new JwtSecurityTokenHandler();
+        var parsedToken = jwtSecurity.ReadJwtToken(token);
+
+        var claims = parsedToken.Claims.ToList();
+        var userId = claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.ToString();
+        var username = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.ToString();
+        var role = claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.ToString();
+        return new Tuple<string, string, string>(userId!, username!, role!);
     }
 }
