@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Chat.Api.Migrations
 {
     [DbContext(typeof(ChatDbContext))]
-    [Migration("20260917183149_second")]
-    partial class second
+    [Migration("20261006065632_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

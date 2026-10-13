@@ -35,6 +35,7 @@ namespace Chat.Api.Migrations
                     Username = table.Column<string>(type: "text", nullable: false),
                     PasswrodHash = table.Column<string>(type: "text", nullable: false),
                     Age = table.Column<byte>(type: "smallint", nullable: false),
+                    Role = table.Column<string>(type: "text", nullable: false),
                     Gender = table.Column<string>(type: "text", nullable: false),
                     ProfilePhotoData = table.Column<byte[]>(type: "bytea", nullable: true),
                     Bio = table.Column<string>(type: "text", nullable: false),
