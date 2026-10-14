@@ -1,5 +1,7 @@
 ﻿@page "/account/users"
+@using Microsoft.AspNetCore.Authorization
 @inherits UsersBase
+@attribute [Authorize]
 
 @if (Users is not null || Users?.Count > 0)
 {
