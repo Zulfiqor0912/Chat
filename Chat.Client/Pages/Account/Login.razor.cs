@@ -15,7 +15,7 @@ public class LoginBase : ComponentBase
     NavigationManager navigationManager { get; set; }
     [Inject]
     ILocalStorageService localStorageService { get; set; }
-
+    
     protected LoginModel _model = new();
     protected string Token { get; set; }
 

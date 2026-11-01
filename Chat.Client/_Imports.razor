@@ -5,6 +5,7 @@
 @using Chat.Client.Layout
 @using Chat.Client.Models
 @using Chat.Client.Repositories.Contract
+@using Chat.Client.Services
 @using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.AspNetCore.Components.Routing
 @using Microsoft.AspNetCore.Components.Web
@@ -16,3 +17,4 @@
 @inject HttpClient Client
 @inject NavigationManager NavigationManager
 @inject IUserIntegration UserIntegration
+@inject StorageService StorageService
