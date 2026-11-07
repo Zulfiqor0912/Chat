@@ -91,7 +91,7 @@ builder.Services.AddDbContext<ChatDbContext>(options =>
                 Role = UserConstants.Admin.ToLower(),
                 Gender = UserConstants.Male
             };
-            var passwordHash = new PasswordHasher<User>().HashPassword(user, "admin"); //password and password: admin
+            var passwordHash = new PasswordHasher<User>().HashPassword(user, "admin"); //login and password: admin
             user.PasswrodHash = passwordHash;
 
             context.Set<User>().Add(user);

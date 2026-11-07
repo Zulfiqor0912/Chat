@@ -16,11 +16,18 @@ public class CustomAuthHandler(StorageService storageService) : AuthenticationSt
 
     private async Task<ClaimsPrincipal> SetClaims(string? userId, string? username, string? role)
     {
+        if (string.IsNullOrEmpty(userId)
+            || string.IsNullOrEmpty(username)
+            || string.IsNullOrEmpty(role))
+        {
+            return new ClaimsPrincipal(new ClaimsIdentity());
+        }
+        
         var check = string.IsNullOrEmpty(userId)
             || string.IsNullOrEmpty(username)
             || string.IsNullOrEmpty(role);
 
-        if (!check)
+        if (check)
             return new ClaimsPrincipal();
 
         var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(
