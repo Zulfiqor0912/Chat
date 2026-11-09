@@ -6,11 +6,15 @@ using D20Tek.Blazor.BrowserStorage;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using Chat.Client.Services;
 
 namespace Chat.Client.Repositories;
 
 public class 
-    UserIntegration(HttpClient httpClient, ILocalStorageService localStorageService) : IUserIntegration
+    UserIntegration(
+        HttpClient httpClient, 
+        ILocalStorageService localStorageService,
+        StorageService storageService) : IUserIntegration
 {
     public async Task<Tuple<HttpStatusCode, object>> GetAllUsers()
     {
@@ -43,10 +47,33 @@ public class
         else return new(statusCode, "Something went wrong");
     }
 
-    /*public Task<Tuple<HttpStatusCode, object>> GetUserInfo()
+    public async Task<Tuple<HttpStatusCode, object>> GetUserInfo()
     {
-        //var url = "api/profile";
-    }*/
+        string? token = await storageService.GetToken();
+        if (!string.IsNullOrEmpty(token))
+        {
+            httpClient.DefaultRequestHeaders.Authorization = 
+                new AuthenticationHeaderValue("Bearer", token);
+        }
+        var url = "api/users/profile";
+        var result = await httpClient.GetAsync(url);
+        var statusCode = result.StatusCode;
+        object? response;
+        if (statusCode == HttpStatusCode.OK)
+        {   
+            response = await result.Content.ReadFromJsonAsync<UserDto>();
+        }
+        else if (statusCode == HttpStatusCode.BadRequest)
+        {
+            response = await result.Content.ReadFromJsonAsync<string>();
+        }
+        else
+        {
+            response = await result.Content.ReadFromJsonAsync<string>();
+        }
+
+        return new Tuple<HttpStatusCode, object>(statusCode, response!);
+    }
 
     public async Task<Tuple<HttpStatusCode, string>> Login(LoginModel model)
     {

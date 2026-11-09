@@ -5,7 +5,7 @@ using System.Net;
 
 namespace Chat.Client.Pages.Account;
 
-public partial class RegisterBase : ComponentBase
+public class RegisterBase : ComponentBase
 {
     [Inject]
     IUserIntegration userIntegration { get; set; }
