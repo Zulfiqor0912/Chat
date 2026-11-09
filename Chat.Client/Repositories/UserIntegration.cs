@@ -9,7 +9,8 @@ using System.Net.Http.Json;
 
 namespace Chat.Client.Repositories;
 
-public class UserIntegration(HttpClient httpClient, ILocalStorageService localStorageService) : IUserIntegration
+public class 
+    UserIntegration(HttpClient httpClient, ILocalStorageService localStorageService) : IUserIntegration
 {
     public async Task<Tuple<HttpStatusCode, object>> GetAllUsers()
     {
@@ -42,10 +43,10 @@ public class UserIntegration(HttpClient httpClient, ILocalStorageService localSt
         else return new(statusCode, "Something went wrong");
     }
 
-    public Task<Tuple<HttpStatusCode, object>> GetUserInfo()
+    /*public Task<Tuple<HttpStatusCode, object>> GetUserInfo()
     {
-        var url = "api/profile";
-    }
+        //var url = "api/profile";
+    }*/
 
     public async Task<Tuple<HttpStatusCode, string>> Login(LoginModel model)
     {

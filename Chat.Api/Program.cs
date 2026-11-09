@@ -14,6 +14,17 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowBlazorApp", policy =>
+    {
+        policy.WithOrigins(
+                "https://localhost:7133"
+                ) // Blazor manzili
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 
 // Add services to the container.
 
@@ -108,12 +119,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors(options =>
-{
-    options.AllowAnyHeader();
-    options.AllowAnyMethod();
-    options.AllowAnyOrigin();
-});
+app.UseCors("AllowBlazorApp");
 
 app.UseStaticFiles();
 app.UseHttpsRedirection();
