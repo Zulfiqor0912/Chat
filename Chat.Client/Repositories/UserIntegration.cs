@@ -42,6 +42,11 @@ public class UserIntegration(HttpClient httpClient, ILocalStorageService localSt
         else return new(statusCode, "Something went wrong");
     }
 
+    public Task<Tuple<HttpStatusCode, object>> GetUserInfo()
+    {
+        var url = "api/profile";
+    }
+
     public async Task<Tuple<HttpStatusCode, string>> Login(LoginModel model)
     {
         string url = "api/Users/login";
