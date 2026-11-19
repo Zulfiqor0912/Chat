@@ -3,30 +3,42 @@
 @inherits ProfileBase
 @attribute [Authorize]
 
-<h1>First name: @User!.FirsName</h1>
-<h1>Last name: @User!.LastName</h1>
-<h1>Username: @User!.Username</h1>
-<h1>Age: @User!.Age</h1>
-<h1>Role: @User!.Role</h1>
-<h1>Gender: @User!.Gender</h1>
-<h1>Bio: @User!.Bio</h1>
-<h1>Created Date Time: @User!.CreatedDateTime</h1>
+@if (User is null)
+{
+  <p>Yuklanmoqda...</p>
+}
+else
+{
+  @* <h1>First name: @User!.FirsName</h1> *@
+  @* <h1>Last name: @User!.LastName</h1> *@
+  @* <h1>Username: @User!.Username</h1> *@
+  @* <h1>Age: @User!.Age</h1> *@
+  @* <h1>Role: @User!.Role</h1> *@
+  @* <h1>Gender: @User!.Gender</h1> *@
+  @* <h1>Bio: @User!.Bio</h1> *@
+  @* <h1>Created Date Time: @User!.CreatedDateTime</h1> *@
 
-<h2 style="text-align:center">User Profile Card</h2>
+  <h2 style="text-align:center">User Profile Card</h2>
 
-<div class="card">
-    <img src="/w3images/team2.jpg" alt="John" style="width:100%">
+  <div class="card">
+    <img src="@ImgUrl" style="width:100%">
     <h1>@User.LastName @User.FirsName</h1>
-    <p class="title">CEO & Founder, Example</p>
-    <p>Harvard University</p>
+    <p class="title">@User!.Username</p>
+    <p>Role: @User!.Role</p>
+    <p>Age: @User!.Age</p>
+    <p>Gender: @User!.Gender</p>
+    <p>Bio: @User!.Bio</p>
+    <p>Created Date Time: @User!.CreatedDateTime</p>
     <div style="margin: 24px 0;">
-        <a href="#"><i class="fa fa-dribbble"></i></a> 
-        <a href="#"><i class="fa fa-twitter"></i></a>  
-        <a href="#"><i class="fa fa-linkedin"></i></a>  
-        <a href="#"><i class="fa fa-facebook"></i></a> 
+      <a href="#"><i class="fa fa-dribbble"></i></a> 
+      <a href="#"><i class="fa fa-twitter"></i></a>  
+      <a href="#"><i class="fa fa-linkedin"></i></a>  
+      <a href="#"><i class="fa fa-facebook"></i></a> 
     </div>
-    <p><button>Contact</button></p>
-</div>
+    <p><button>View</button></p>
+  </div>
+}
+
 
 <style>
 .card {

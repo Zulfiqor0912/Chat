@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Chat.Api.DTOs;
+using Chat.Client.Constants;
 using Chat.Client.Repositories.Contract;
 using Microsoft.AspNetCore.Components;
 
@@ -12,6 +13,7 @@ public class ProfileBase() : ComponentBase
     private IUserIntegration UserIntegration { get; set; }
 
     public UserDto? User { get; set; }
+    protected string ImgUrl { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -19,6 +21,10 @@ public class ProfileBase() : ComponentBase
         if (statusCode == HttpStatusCode.OK)
         {
             User = (UserDto)response!;
+            if (User.ProfilePhotoData != null)
+                ImgUrl = $"data:image/jpeg;base64,{Convert.ToBase64String(User.ProfilePhotoData)}";
+            else
+                ImgUrl = UrlConstants.DefaultImgUrl;    
         }
         else
         {
