@@ -22,11 +22,8 @@ public class LoginBase : ComponentBase
     protected async Task LoginClicked()
     {
         var (statusCode, response) = await userIntegration.Login(_model);
-
-
         bool isOk = statusCode == HttpStatusCode.OK;
         bool isBadRequest = statusCode == HttpStatusCode.BadRequest;
-
         if (isOk)
         {
             await localStorageService.SetAsync("token", response);
