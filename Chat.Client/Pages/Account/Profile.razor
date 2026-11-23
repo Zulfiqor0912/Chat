@@ -20,60 +20,65 @@ else
 
   <h2 style="text-align:center">User Profile Card</h2>
 
-  <div class="card">
-    <img src="@ImgUrl" style="width:100%">
-    <h1>@User.LastName @User.FirsName</h1>
-    <p class="title">@User!.Username</p>
-    <p>Role: @User!.Role</p>
-    <p>Age: @User!.Age</p>
-    <p>Gender: @User!.Gender</p>
-    <p>Bio: @User!.Bio</p>
-    <p>Created Date Time: @User!.CreatedDateTime</p>
-    <div style="margin: 24px 0;">
-      <a href="#"><i class="fa fa-dribbble"></i></a> 
-      <a href="#"><i class="fa fa-twitter"></i></a>  
-      <a href="#"><i class="fa fa-linkedin"></i></a>  
-      <a href="#"><i class="fa fa-facebook"></i></a> 
+  @* <div class="card"> *@
+  @*   <img src="@ImgUrl" style="width:100%"> *@
+  @*   <h1>@User.LastName @User.FirsName</h1> *@
+  @*   <p class="title">@User!.Username</p> *@
+  @*   <p>Role: @User!.Role</p> *@
+  @*   <p>Age: @User!.Age</p> *@
+  @*   <p>Gender: @User!.Gender</p> *@
+  @*   <p>Bio: @User!.Bio</p> *@
+  @*   <p>Created Date Time: @User!.CreatedDateTime</p> *@
+  @*   <p>Id: @User!.Id</p> *@
+  @*   <div class="gap-3 mt-3 icons"></div> *@
+  @*   <div style="margin: 24px 0;"> *@
+  @*     <a href="#"><i class="fa fa-dribbble"></i></a>  *@
+  @*     <a href="#"><i class="fa fa-twitter"></i></a>   *@
+  @*     <a href="#"><i class="fa fa-linkedin"></i></a>   *@
+  @*     <a href="#"><i class="fa fa-facebook"></i></a>  *@
+  @*   </div> *@
+  @*   <p><button>View</button></p> *@
+  @* </div> *@
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+
+<div class="bg-light">
+    <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+        <div class="card profile-card shadow  mt-4">
+            <div class="card-body text-center">
+                <img src="@ImgUrl" alt="User Profile" class="rounded-circle profile-img mb-3">
+                <h3 class="card-title mb-0">@User.LastName @User.FirsName</h3>
+                <p class="text-muted">@User.Username</p>
+                <p class="card-text">@User.Bio</p>
+                @* <div class="d-flex justify-content-center mb-3"> *@
+                @*     <a href="#" class="btn btn-outline-primary me-2"><i class="bi bi-twitter"></i></a> *@
+                @*     <a href="#" class="btn btn-outline-primary me-2"><i class="bi bi-linkedin"></i></a> *@
+                @*     <a href="#" class="btn btn-outline-primary"><i class="bi bi-github"></i></a> *@
+                @* </div> *@
+                <ul class="list-group list-group-flush mb-3">
+                    <li class="list-group-item bg-transparent">Username: @User.Username</li>
+                    <li class="list-group-item bg-transparent">Age: @User.Age</li>
+                    <li class="list-group-item bg-transparent">Role: @User.Role</li>
+                    <li class="list-group-item bg-transparent">Created At Date: @User.CreatedDateTime</li>
+                    <li class="list-group-item bg-transparent">Id: @User.Id</li>
+                </ul>
+                <button class="btn btn-primary w-100 mt-4">Connect</button>
+            </div>
+        </div>
     </div>
-    <p><button>View</button></p>
-  </div>
+</div>
 }
 
 
 <style>
-.card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  max-width: 300px;
-  margin: auto;
-  text-align: center;
-  font-family: arial;
-}
+    .profile-card {
+        max-width: 340px;
+        background-color: #f8f9fa;
+    }
 
-.title {
-  color: grey;
-  font-size: 18px;
-}
-
-button {
-  border: none;
-  outline: 0;
-  display: inline-block;
-  padding: 8px;
-  color: white;
-  background-color: #000;
-  text-align: center;
-  cursor: pointer;
-  width: 100%;
-  font-size: 18px;
-}
-
-a {
-  text-decoration: none;
-  font-size: 22px;
-  color: black;
-}
-
-button:hover, a:hover {
-  opacity: 0.7;
-}
+    .profile-img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+    }
 </style>
