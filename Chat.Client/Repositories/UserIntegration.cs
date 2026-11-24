@@ -1,11 +1,11 @@
-﻿using Chat.Api.DTOs;
-using Chat.Client.Models;
+﻿using Chat.Client.Models;
 using Chat.Client.Models.UserModels;
 using Chat.Client.Repositories.Contract;
 using D20Tek.Blazor.BrowserStorage;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using Chat.Client.DTOs;
 using Chat.Client.Services;
 
 namespace Chat.Client.Repositories;
@@ -91,5 +91,16 @@ public class
         var statusCode = result.StatusCode;
         var response = await result.Content.ReadAsStringAsync();
         return new(statusCode, response);
+    }
+    
+    private async Task AddTokenHeader()
+    {
+        string? token = await storageService.GetToken();
+
+        if (!string.IsNullOrEmpty(token))
+        {
+            httpClient.DefaultRequestHeaders.Authorization = 
+                new AuthenticationHeaderValue("Bearer", token);
+        }
     }
 }

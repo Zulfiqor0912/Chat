@@ -1,6 +1,6 @@
 ﻿using System.Net;
-using Chat.Api.DTOs;
 using Chat.Client.Constants;
+using Chat.Client.DTOs;
 using Chat.Client.Repositories.Contract;
 using Microsoft.AspNetCore.Components;
 
