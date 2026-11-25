@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Chat.Api.DTOs;
+﻿namespace Chat.Client.DTOs;
 
 public class UserDto
 {

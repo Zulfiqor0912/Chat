@@ -1,0 +1,47 @@
+﻿@page "/user-chats"
+@using Microsoft.AspNetCore.Authorization
+@* @attribute [Authorize] *@
+@inherits UserChatsBase
+
+
+@if (Chats.Count > 0)
+{
+  <h1>User chats</h1>
+  <table style="width:100%">
+    <tr>
+      <th>Id</th>
+      <th>Chat name</th>
+      <th>See chat</th>
+    </tr>
+    @foreach (var item in Chats)
+    {
+      <tr>
+        <td>@item.Id</td>
+        <td>@item.ChatNames[0]</td>
+        <td>
+          <button class="btn btn-primary">See chat</button>
+        </td>
+      </tr> 
+    }
+  </table>
+}
+else
+{
+  <h1>Hozirda sizda chatlar mavjud emas . . .</h1>
+}
+
+<style>
+body {
+  background-color: lightblue;
+}
+
+h1 {
+  color: white;
+  text-align: center;
+}
+
+p {
+  font-family: verdana;
+  font-size: 20px;
+}
+</style>

@@ -17,5 +17,6 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https:/
 
 builder.Services.AddBrowserStorage();
 builder.Services.AddScoped<IUserIntegration, UserIntegration>();
+builder.Services.AddScoped<IChatIntegration, ChatIntegration>();
 
 await builder.Build().RunAsync();
