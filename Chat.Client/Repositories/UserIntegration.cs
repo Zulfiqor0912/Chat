@@ -84,6 +84,16 @@ public class
         return new(statusCode, response);
     }
 
+    public async Task<Tuple<HttpStatusCode, object>> UpdateBio(string text)
+    {
+        string url = "update-bio";
+        await AddTokenHeader();
+        var result = await httpClient.PostAsJsonAsync(url, text);
+        var statusCode = result.StatusCode;
+        object response = result.Content.ReadFromJsonAsync<object>();
+        return new(statusCode, response);
+    }
+
     public async Task<Tuple<HttpStatusCode, string>> Login(LoginModel model)
     {
         string url = "api/Users/login";

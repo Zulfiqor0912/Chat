@@ -11,4 +11,5 @@ public interface IUserIntegration
     Task<Tuple<HttpStatusCode, object>> GetAllUsers();
     Task<Tuple<HttpStatusCode, object>> GetUserInfo();
     Task<Tuple<HttpStatusCode, object>> UpdateAge(byte age);
+    Task<Tuple<HttpStatusCode, object>> UpdateBio(string text);
 }

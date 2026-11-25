@@ -16,6 +16,7 @@ public class ProfileBase : ComponentBase
     public UserDto? User { get; set; }
     protected string ImgUrl { get; set; } = string.Empty;
     protected byte? Age { get; set; }
+    protected string? Bio { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -38,6 +39,15 @@ public class ProfileBase : ComponentBase
     protected async Task UpdateAge()
     {
         var (statusCode, response) = await UserIntegration.UpdateAge(Age!.Value);
+        if (statusCode == HttpStatusCode.OK)
+        {
+            NavigationManager.Refresh(true);
+        }
+    }
+
+    protected async Task UpdateBio()
+    {
+        var (statusCode, response) = await UserIntegration.UpdateBio(Bio!);
         if (statusCode == HttpStatusCode.OK)
         {
             NavigationManager.Refresh(true);

@@ -9,17 +9,15 @@
   <h1>User chats</h1>
   <table style="width:100%">
     <tr>
-      <th>Id</th>
       <th>Chat name</th>
       <th>See chat</th>
     </tr>
     @foreach (var item in Chats)
     {
       <tr>
-        <td>@item.Id</td>
         <td>@item.ChatNames[0]</td>
         <td>
-          <button class="btn btn-primary">See chat</button>
+          <button class="btn btn-primary" @onclick="() => SeeChat(item.Id)">See chat</button>
         </td>
       </tr> 
     }

@@ -31,6 +31,24 @@ public class ChatIntegration(
         return new(statusCode, response);  
     }
 
+    public async Task<Tuple<HttpStatusCode, object>> GetUserChats(Guid toUserId)
+    {
+        string url = "api/users/user_id/chats";
+        var result = await httpClient.PostAsJsonAsync(url, toUserId);
+        var statusCode = result.StatusCode;
+        object response;
+        if (statusCode == HttpStatusCode.OK)
+        {
+            response = (await result.Content.ReadFromJsonAsync<ChatDto>())!;
+        }
+        else
+        {
+            response = (await result.Content.ReadFromJsonAsync<string>())!;
+        }
+
+        return new(statusCode, response); 
+    }
+
     private async Task AddTokenHeader()
     {
         string? token = await storageService.GetToken();

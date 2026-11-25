@@ -48,15 +48,28 @@ else
             <div class="card-body text-center">
                 <img src="@ImgUrl" alt="User Profile" class="rounded-circle profile-img mb-3">
                 <h3 class="card-title mb-0">@User.LastName @User.FirsName</h3>
-                <p class="card-text">Bio: @User.Bio</p>
+                <div class="mb-2">
+                    @if (string.IsNullOrEmpty(User?.Bio))
+                    {
+                        <label>Enter you bio</label>
+                        <input type="text" @bind="Bio"/>
+                        <button class="btn btn-primary" type="button" @onclick="UpdateBio">Save</button>
+                    }
+                    else
+                    {
+                        <p>Bio: @User!.Bio</p>
+                        <input type="text" @bind="Bio"/>
+                        <button class="btn btn-primary" type="button" @onclick="UpdateBio">Update bio</button>
+                    }
+                </div>
                 @* <div class="d-flex justify-content-center mb-3"> *@
                 @*     <a href="#" class="btn btn-outline-primary me-2"><i class="bi bi-twitter"></i></a> *@
                 @*     <a href="#" class="btn btn-outline-primary me-2"><i class="bi bi-linkedin"></i></a> *@
                 @*     <a href="#" class="btn btn-outline-primary"><i class="bi bi-github"></i></a> *@
                 @* </div> *@
-                <div class="mb-2">Username: @User.Username</div>
+                <div class="mb-2">Username: @User!.Username</div>
                 <div class="gap-3 mt-3 icons d-flex flex-row justify-content-center align-items-center">
-                    @if (User?.Age == null || User?.Age == 0)
+                    @if (User?.Age is null or 0)
                     {
                         <label>Enter your age</label>
                         <input type="number" @bind="Age"/>
@@ -65,6 +78,9 @@ else
                     else
                     {
                         <p>Age: @User?.Age</p>
+                        <input type="number" @bind="Age"/>
+                        <button class="btn btn-primary" type="button" @onclick="UpdateAge">Update age</button>
+                        
                     }
                 </div>
                 <div class="mb-2">Role: @User!.Role</div>
