@@ -6,23 +6,24 @@ using Microsoft.AspNetCore.Components;
 
 namespace Chat.Client.Pages.Account;
 
-public class ProfileBase() : ComponentBase
+public class ProfileBase : ComponentBase
 {
 
     [Inject]
-    private IUserIntegration UserIntegration { get; set; }
-
+    public IUserIntegration UserIntegration { get; set; }
+    [Inject] 
+    public NavigationManager NavigationManager { get; set; }
     public UserDto? User { get; set; }
-    protected string ImgUrl { get; set; }
-    protected byte Age { get; set; }
+    protected string ImgUrl { get; set; } = string.Empty;
+    protected byte? Age { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         var (statusCode, response) = await UserIntegration.GetUserInfo();
         if (statusCode == HttpStatusCode.OK)
         {
-            User = (UserDto)response!;
-            if (User.ProfilePhotoData != null)
+            User = response as UserDto;
+            if (User!.ProfilePhotoData is {Length: > 0})
                 ImgUrl = $"data:image/jpeg;base64,{Convert.ToBase64String(User.ProfilePhotoData)}";
             else
                 ImgUrl = UrlConstants.DefaultImgUrl;    
@@ -30,6 +31,16 @@ public class ProfileBase() : ComponentBase
         else
         {
             var error = (string)response!;
+            ImgUrl = UrlConstants.DefaultImgUrl;
+        }
+    }
+
+    protected async Task UpdateAge()
+    {
+        var (statusCode, response) = await UserIntegration.UpdateAge(Age!.Value);
+        if (statusCode == HttpStatusCode.OK)
+        {
+            NavigationManager.Refresh(true);
         }
     }
 }

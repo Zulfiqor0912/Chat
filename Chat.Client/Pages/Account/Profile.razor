@@ -56,11 +56,11 @@ else
                 @* </div> *@
                 <div class="mb-2">Username: @User.Username</div>
                 <div class="gap-3 mt-3 icons d-flex flex-row justify-content-center align-items-center">
-                    @if (User?.Age == null)
+                    @if (User?.Age == null || User?.Age == 0)
                     {
                         <label>Enter your age</label>
                         <input type="number" @bind="Age"/>
-                        <button type="submit" @onclick=" "></button>
+                        <button class="btn btn-primary" type="button" @onclick="UpdateAge">Save</button>
                     }
                     else
                     {

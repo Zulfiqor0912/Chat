@@ -49,12 +49,7 @@ public class
 
     public async Task<Tuple<HttpStatusCode, object>> GetUserInfo()
     {
-        string? token = await storageService.GetToken();
-        if (!string.IsNullOrEmpty(token))
-        {
-            httpClient.DefaultRequestHeaders.Authorization = 
-                new AuthenticationHeaderValue("Bearer", token);
-        }
+        await AddTokenHeader();
         var url = "api/users/profile";
         var result = await httpClient.GetAsync(url);
         var statusCode = result.StatusCode;
@@ -73,6 +68,20 @@ public class
         }
 
         return new Tuple<HttpStatusCode, object>(statusCode, response!);
+    }
+
+    public async Task<Tuple<HttpStatusCode, object>> UpdateAge(byte age)
+    {
+        string url = "update-user-general-info";
+        await AddTokenHeader();
+        var model = new UpdateUserGeneralInfo()
+        {
+            Age = age.ToString()
+        };
+        var result = await httpClient.PostAsJsonAsync(url, model);
+        var statusCode = result.StatusCode;
+        object response = result.Content.ReadFromJsonAsync<object>();
+        return new(statusCode, response);
     }
 
     public async Task<Tuple<HttpStatusCode, string>> Login(LoginModel model)

@@ -10,4 +10,5 @@ public interface IUserIntegration
     Task<Tuple<HttpStatusCode, string>> Register(RegisterModel model);
     Task<Tuple<HttpStatusCode, object>> GetAllUsers();
     Task<Tuple<HttpStatusCode, object>> GetUserInfo();
+    Task<Tuple<HttpStatusCode, object>> UpdateAge(byte age);
 }
