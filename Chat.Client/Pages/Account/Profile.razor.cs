@@ -14,6 +14,7 @@ public class ProfileBase() : ComponentBase
 
     public UserDto? User { get; set; }
     protected string ImgUrl { get; set; }
+    protected byte Age { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
