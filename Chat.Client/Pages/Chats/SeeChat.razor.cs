@@ -14,14 +14,17 @@ public abstract class SeeChatBase : ComponentBase
     [Parameter]
     public Guid ToUserId { get; set; }
 
-    public ChatDto? ChatDto { get; set; }
+    protected ChatDto? ChatDto { get; set; }
+    protected string? Text { get; set; }
+    protected List<MessageDto>? MessageDtos { get; set; } = new ();
 
     protected override async Task OnInitializedAsync()
     {
-       await LoadChat(ToUserId);
+       await LoadChatInfo(ToUserId);
+       await LoadMessagesOfChat(ChatDto!.Id);
     }
 
-    private async Task LoadChat(Guid chatId)
+    private async Task LoadChatInfo(Guid chatId)
     {
         var (statusCode, response) = await ChatIntegration!.GetUserChats(chatId);
         if (statusCode == HttpStatusCode.Unauthorized)
@@ -34,4 +37,24 @@ public abstract class SeeChatBase : ComponentBase
         }
         ChatDto = response as ChatDto ?? new ChatDto();
     }
+
+    private async Task LoadMessagesOfChat(Guid chatId)
+    {
+        var (statusCode, response) = await ChatIntegration!.GetMessagesOfChat(chatId);
+        if (statusCode == HttpStatusCode.Unauthorized)
+        {
+            NavigationManager?.NavigateTo("api/users/login");
+        }
+        else if (statusCode != HttpStatusCode.OK)
+        {
+            
+        }
+        MessageDtos = response as List<MessageDto> ?? new List<MessageDto>();
+    }
+
+    protected async Task SendMessage()
+    {
+        
+    }
+
 }

@@ -27,7 +27,7 @@ public class MessageController(
     }
     
     [Authorize(Roles = $"{UserConstants.Admin},{UserConstants.User}")]
-    [HttpGet]
+    [HttpGet] //api/users/{userId}/chats/{chatId}/Message
     public async Task<IActionResult> GetMessagesOfChat(Guid chatId)
     {
         var messages = await messageManager.GetMessageByChatId(chatId);

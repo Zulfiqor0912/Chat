@@ -3,4 +3,24 @@
 @attribute [Authorize]
 @inherits SeeChatBase
 
-<h1>ChatId: @ToUserId</h1>
+<h1>ToUserId: @ToUserId</h1>
+<h4>Sender name(first user): @ChatDto!.ChatNames[0]</h4>
+<h4>Receiver name: @ChatDto!.ChatNames[1]</h4>
+
+<input @bind="Text"/>
+<button class="btn btn-primary" type="submit" @onclick="SendMessage">Send</button>
+
+@if (MessageDtos?.Count >= 0)
+{
+    foreach (var message in MessageDtos)
+    {
+        if (message.FromUserId == ToUserId)
+        {
+            <h1>You: @message.Text</h1>
+        }
+        else
+        {
+            <h1>Me: @message.Text</h1>
+        }
+    }
+}
