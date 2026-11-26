@@ -1,6 +1,6 @@
-﻿@page "/see-chat/{ChatId:guid}"
+﻿@page "/see-chat/{ToUserId:guid}"
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
 @inherits SeeChatBase
 
-<h1>ChatId: @ChatId</h1>
+<h1>ChatId: @ToUserId</h1>

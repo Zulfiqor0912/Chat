@@ -52,9 +52,9 @@ public class CustomAuthHandler(StorageService storageService) : AuthenticationSt
         var parsedToken = jwtSecurity.ReadJwtToken(token);
 
         var claims = parsedToken.Claims.ToList();
-        var userId = claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.ToString();
-        var username = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.ToString();
-        var role = claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.ToString();
+        var userId = claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+        var username = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+        var role = claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
         return new Tuple<string, string, string>(userId!, username!, role!);
     }
 }

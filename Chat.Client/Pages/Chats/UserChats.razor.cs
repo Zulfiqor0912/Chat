@@ -1,7 +1,10 @@
 ﻿using System.Net;
+using System.Security.Claims;
 using Chat.Client.DTOs;
 using Chat.Client.Repositories.Contract;
+using Chat.Client.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Chat.Client.Pages.Chats;
 
@@ -11,6 +14,8 @@ public abstract class UserChatsBase : ComponentBase
     protected IChatIntegration? ChatIntegration { get; set; }
     [Inject]
     protected NavigationManager? NavigationManager { get; set; }
+    [Inject]
+    protected AuthenticationStateProvider? AuthenticationStateProvider { get; set; }
     
     protected List<ChatDto> Chats { get; set; } = new();
 
@@ -45,8 +50,20 @@ public abstract class UserChatsBase : ComponentBase
         }
     }
 
-    protected void SeeChat(Guid chatId)
+    protected async Task SeeChat(Guid chatId)
     {
-        NavigationManager!.NavigateTo($"/see-chat/{chatId}");
+        var chat = Chats.First(c => c.Id == chatId);
+        var userId = await GetUserId();
+        var userChat = chat.UserChats!.First(c => c.FirstUserId == userId);
+        NavigationManager!.NavigateTo($"/see-chat/{userChat.LastUserId}");
+    }
+
+    private async Task<Guid> GetUserId()
+    {
+        var stateProvider = (CustomAuthHandler)AuthenticationStateProvider!;
+        var state = await stateProvider.GetAuthenticationStateAsync();
+        ClaimsPrincipal user = state.User;
+        var userId = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)!.Value;
+        return Guid.Parse(userId);
     }
 }

@@ -12,13 +12,13 @@ public abstract class SeeChatBase : ComponentBase
     [Inject]
     protected NavigationManager? NavigationManager { get; set; }
     [Parameter]
-    public Guid ChatId { get; set; }
+    public Guid ToUserId { get; set; }
 
     public ChatDto? ChatDto { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-       await LoadChat(ChatId);
+       await LoadChat(ToUserId);
     }
 
     private async Task LoadChat(Guid chatId)
