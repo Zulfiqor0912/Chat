@@ -73,6 +73,9 @@ public class ChatIntegration(
         await AddTokenHeader();
         var url = $"api/users/user_id/chats/{chatId}/Message/{text}";
         var result = await httpClient.PostAsJsonAsync(url, text);
+        var statusCode = result.StatusCode;
+        var response = result.Content.ReadFromJsonAsync<object>();
+        return new(statusCode, response);
     }
 
     private async Task AddTokenHeader()
